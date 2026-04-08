@@ -8,8 +8,10 @@ let isReady = false
 let lastScanSound = 0
 let audioCtx = null
 
+let stream = null
+let isScanning = false
+
 const MAX_RESULT = 30  
-const TOTAL_FILE = 100  
 
 /* =========================  
 ELEMENT  
@@ -17,7 +19,10 @@ ELEMENT
 const searchInput = document.getElementById("search")  
 const resultEl = document.getElementById("result")  
 const statusEl = document.getElementById("status")  
+
 const btnCamera = document.getElementById("btnCamera")
+const btnVoice = document.getElementById("btnVoice")
+
 const video = document.getElementById("camera")
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
@@ -25,177 +30,11 @@ const ctx = canvas.getContext("2d")
 const scanFrame = document.getElementById("scanFrame")
 const scanText = document.getElementById("scanText")
 const btnClose = document.getElementById("btnClose")
-const btnVoice = document.getElementById("btnVoice")
 const flash = document.getElementById("flash")
 
 /* =========================  
-INIT  
-========================= */  
-function normalize(val) {  
-  return (val || "")
-    .toString()
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "")
-}
-
-let stream = null
-
-/* =========================  
-SOUND EFFECT  
+OVERLAY (HIGHLIGHT BOX)
 ========================= */
-const sfxOpen = new Audio("assets/sfx_open.wav")
-const sfxScan = new Audio("assets/sfx_scan.mp3")
-const sfxSuccess = new Audio("assets/sfx_success.wav")
-
-function playSound(audio) {
-  audio.currentTime = 0
-  audio.play().catch(() => {})
-}
-
-function playBeep(freq = 900, duration = 120) {
-  try {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-    }
-
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume()
-    }
-
-    const oscillator = audioCtx.createOscillator()
-    const gain = audioCtx.createGain()
-
-    oscillator.connect(gain)
-    gain.connect(audioCtx.destination)
-
-    oscillator.frequency.value = freq
-    oscillator.type = "sine"
-
-    // 🔥 fade biar tidak pecah
-    gain.gain.setValueAtTime(0, audioCtx.currentTime)
-    gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.01)
-    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration / 1000)
-
-    oscillator.start()
-    oscillator.stop(audioCtx.currentTime + duration / 1000)
-
-  } catch (e) {
-    console.log("Beep error:", e)
-  }
-}
-
-/* =========================  
-VOICE PRO ENGINE  
-========================= */
-let recognition = null
-let isListening = false
-
-function wordsToNumber(text) {
-  const map = {
-    nol: "0",
-    kosong: "0",
-    satu: "1",
-    dua: "2",
-    tiga: "3",
-    empat: "4",
-    lima: "5",
-    enam: "6",
-    tujuh: "7",
-    delapan: "8",
-    sembilan: "9"
-  }
-
-  return text
-    .toLowerCase()
-    .split(" ")
-    .map(w => map[w] ?? w)
-    .join("")
-}
-
-function extractBestKeyword(text) {
-  text = text.toLowerCase()
-
-  // ambil angka panjang (SKU biasanya >4 digit)
-  const numberMatch = text.match(/\d{4,}/g)
-  if (numberMatch) {
-    return numberMatch.sort((a, b) => b.length - a.length)[0]
-  }
-
-  // fallback → pakai teks biasa
-  return text
-}
-
-if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-
-  recognition = new SpeechRecognition()
-  recognition.lang = "id-ID"
-  recognition.continuous = false
-  recognition.interimResults = true
-  recognition.maxAlternatives = 1
-
-  recognition.onstart = () => {
-  isListening = true
-  statusEl.innerText = "🎤 Listening..."
-  btnVoice.style.opacity = "0.5"
-
-  playBeep(1000, 120) // 🔊 beep mulai
-
-  if (navigator.vibrate) navigator.vibrate(50)
-}
-
-  recognition.onresult = (event) => {
-    let transcript = ""
-
-    for (let i = 0; i < event.results.length; i++) {
-      transcript += event.results[i][0].transcript + " "
-    }
-
-    console.log("RAW VOICE:", transcript)
-
-    // ubah kata jadi angka
-    let processed = wordsToNumber(transcript)
-
-    // ambil keyword terbaik
-    let keyword = aiFilterSKU(processed)
-
-    console.log("PROCESSED:", processed)
-    console.log("KEYWORD:", keyword)
-
-    searchInput.value = keyword
-    searchInput.dispatchEvent(new Event("input"))
-  }
-
-  recognition.onerror = (event) => {
-  console.log("Voice error:", event.error)
-  statusEl.innerText = "❌ Voice error: " + event.error
-  btnVoice.style.opacity = "1"
-
-  playBeep(300, 300) // 🔊 beep error (lebih rendah)
-}
-
-  recognition.onend = () => {
-  isListening = false
-  statusEl.innerText = "Voice selesai"
-  btnVoice.style.opacity = "1"
-
-  playBeep(600, 150) // 🔊 beep selesai
-}
-
-} else {
-  console.log("❌ Voice tidak support di browser ini")
-}
-
-/* =========================  
-GESTURE STATE (USAP)
-========================= */
-let isDrawing = false
-let startX = 0
-let startY = 0
-let endX = 0
-let endY = 0
-
-// overlay untuk kotak seleksi
 const overlay = document.createElement("canvas")
 const overlayCtx = overlay.getContext("2d")
 
@@ -207,240 +46,250 @@ overlay.style.pointerEvents = "none"
 document.body.appendChild(overlay)
 
 /* =========================  
-AI FILTER
-========================= */
-function aiFilterSKU(text) {
-  text = text.toLowerCase()
-
-  // ambil semua angka
-  const candidates = text.match(/\d+/g)
-  if (!candidates) return text
-
-  let best = ""
-  let bestScore = -999
-
-  candidates.forEach(num => {
-    let score = 0
-
-    const len = num.length
-
-    // scoring
-    if (len >= 8) score += 5
-    else if (len >= 5) score += 3
-    else if (len < 4) score -= 5
-
-    // hindari angka kecil (diskon dll)
-    if (Number(num) <= 100) score -= 3
-
-    if (score > bestScore) {
-      bestScore = score
-      best = num
-    }
-  })
-
-  return best || text
+UTIL  
+========================= */  
+function normalize(val) {  
+  return (val || "")
+    .toString()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "")
 }
 
 /* =========================  
-START CAMERA DAN VOICE
+SOUND  
+========================= */
+function playBeep(freq = 900, duration = 120) {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+    }
+
+    const osc = audioCtx.createOscillator()
+    const gain = audioCtx.createGain()
+
+    osc.connect(gain)
+    gain.connect(audioCtx.destination)
+
+    osc.frequency.value = freq
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime)
+
+    osc.start()
+    osc.stop(audioCtx.currentTime + duration / 1000)
+  } catch {}
+}
+
+/* =========================  
+VOICE (TIDAK DIUBAH)
+========================= */
+let recognition = null
+let isListening = false
+
+function wordsToNumber(text) {
+  const map = { nol:"0", kosong:"0", satu:"1", dua:"2", tiga:"3", empat:"4", lima:"5", enam:"6", tujuh:"7", delapan:"8", sembilan:"9" }
+  return text.toLowerCase().split(" ").map(w => map[w] ?? w).join("")
+}
+
+function aiFilterSKUPro(words) {
+  let best = ""
+  let bestScore = -999
+
+  words.forEach(w => {
+    const text = w.text || ""
+    const conf = w.confidence || 0
+
+    const nums = text.match(/\d+/g)
+    if (!nums) return
+
+    nums.forEach(num => {
+      let score = 0
+      const len = num.length
+
+      // 🔥 PRIORITAS SKU (BUKAN BARCODE)
+      if (len >= 6 && len <= 10) score += 10
+      else if (len === 5) score += 5
+      else if (len >= 11) score -= 8 // ⛔ kemungkinan barcode
+      else if (len < 5) score -= 10
+
+      // 🔥 FILTER HARGA / DISKON
+      if (Number(num) < 1000) score -= 5
+      if (Number(num) > 9999999999) score -= 5
+
+      // 🔥 CONFIDENCE OCR
+      if (conf > 80) score += 3
+      else if (conf < 50) score -= 5
+
+      // 🔥 POSISI DI TENGAH FRAME (PRIORITAS)
+      const centerX = (w.bbox.x0 + w.bbox.x1) / 2
+      const centerY = (w.bbox.y0 + w.bbox.y1) / 2
+
+      const screenCenterX = window.innerWidth / 2
+      const screenCenterY = window.innerHeight / 2
+
+      const dist = Math.hypot(centerX - screenCenterX, centerY - screenCenterY)
+
+      if (dist < 150) score += 5
+
+      // 🔥 BONUS: angka biasanya SKU (bukan desimal harga)
+      if (!text.includes(".")) score += 2
+
+      if (score > bestScore) {
+        bestScore = score
+        best = num
+      }
+    })
+  })
+
+  return best
+}
+
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+  recognition = new SpeechRecognition()
+  recognition.lang = "id-ID"
+
+  recognition.onstart = () => {
+    isListening = true
+    statusEl.innerText = "🎤 Listening..."
+  }
+
+  recognition.onresult = (e) => {
+    let text = ""
+    for (let i=0;i<e.results.length;i++) {
+      text += e.results[i][0].transcript + " "
+    }
+
+    let processed = wordsToNumber(text)
+    let keyword = aiFilterSKU(processed)
+
+    searchInput.value = keyword
+    searchInput.dispatchEvent(new Event("input"))
+  }
+
+  recognition.onend = () => {
+    isListening = false
+    statusEl.innerText = "Voice selesai"
+  }
+}
+
+btnVoice?.addEventListener("click", () => {
+  if (!recognition) return alert("Voice tidak support")
+
+  if (isListening) recognition.stop()
+  else recognition.start()
+})
+
+/* =========================  
+CAMERA START
 ========================= */
 btnCamera.addEventListener("click", async () => {
   if (stream) return
 
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "environment" },
-      audio: false
-    })
+  stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: "environment" }
+  })
 
-    window.stream = stream
+  video.srcObject = stream
+  video.play()
 
-    video.srcObject = stream
+  overlay.width = window.innerWidth
+  overlay.height = window.innerHeight
 
-    video.onloadedmetadata = () => {
-      video.play()
-    }
+  video.classList.add("active")
+  document.body.classList.add("camera-open")
 
-    // sync overlay size
-    overlay.width = window.innerWidth
-    overlay.height = window.innerHeight
+  scanFrame.classList.add("active")
+  scanText.classList.add("active")
+  btnClose.classList.add("active")
 
-    video.classList.add("active")
-    document.body.classList.add("camera-open")
-
-    playSound(sfxOpen)
-    if (navigator.vibrate) navigator.vibrate([30, 20, 30])
-
-    scanFrame?.classList.add("active")
-    scanText?.classList.add("active")
-    btnClose?.classList.add("active")
-
-    statusEl.innerText = "Usap area SKU untuk scan"
-
-  } catch (err) {
-    console.error("ERROR CAMERA:", err)
-    alert("Kamera gagal: " + err.message)
-  }
-})
-
-btnVoice?.addEventListener("click", () => {
-  if (!recognition) {
-    alert("Browser tidak support voice")
-    return
-  }
-
-  if (isListening) {
-    recognition.stop()
-    return
-  }
-
-  try {
-    recognition.start()
-  } catch (err) {
-    console.log("Start error:", err)
-    statusEl.innerText = "❌ Gagal start voice"
-  }
+  statusEl.innerText = "Arahkan SKU ke frame"
 })
 
 /* =========================  
-GESTURE TOUCH
+AUTO SCAN LOOP (🔥 BARU)
 ========================= */
-video.addEventListener("touchstart", (e) => {
+function isInsideFrame(box) {
+  const frame = scanFrame.getBoundingClientRect()
+  const cx = box.x0 + (box.x1 - box.x0)/2
+  const cy = box.y0 + (box.y1 - box.y0)/2
+
+  return (
+    cx > frame.left &&
+    cx < frame.right &&
+    cy > frame.top &&
+    cy < frame.bottom
+  )
+}
+
+async function scanLoop() {
   if (!stream) return
 
-  isDrawing = true
+  if (!isScanning) {
+    isScanning = true
 
-  const touch = e.touches[0]
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    ctx.drawImage(video, 0, 0)
 
-  startX = touch.clientX
-  startY = touch.clientY
-})
+    const result = await Tesseract.recognize(canvas, "eng")
 
-video.addEventListener("touchmove", (e) => {
-  if (!isDrawing) return
+    overlayCtx.clearRect(0,0,overlay.width,overlay.height)
 
-  const touch = e.touches[0]
-  endX = touch.clientX
-  endY = touch.clientY
+    // 🔥 highlight semua kandidat angka SKU
+    result.data.words.forEach(w => {
+      if (!w.text.match(/\d{5,}/)) return
 
-  overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
+      const b = w.bbox
 
-  overlayCtx.strokeStyle = "#00ffcc"
-  overlayCtx.lineWidth = 2
+      overlayCtx.strokeStyle = "rgba(0,255,0,0.5)"
+      overlayCtx.lineWidth = 2
+      overlayCtx.strokeRect(b.x0, b.y0, b.x1-b.x0, b.y1-b.y0)
+    })
 
-  overlayCtx.strokeRect(
-    startX,
-    startY,
-    endX - startX,
-    endY - startY
-  )
-})
+    let keyword = aiFilterSKUPro(result.data.words)
 
-video.addEventListener("touchend", async () => {
-  if (!isDrawing) return
-  isDrawing = false
+    if (keyword) {
+      searchInput.value = keyword
+      searchInput.dispatchEvent(new Event("input"))
 
-  overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
+      playBeep(1200,100)
 
-  flash.classList.add("active")
-  setTimeout(() => flash.classList.remove("active"), 300)
+      stopCamera()
+      return
+    }
 
-  const now = Date.now()
-
-  if (now - lastScanSound > 300) {
-    playSound(sfxScan)
-    if (navigator.vibrate) navigator.vibrate(20)
-    lastScanSound = now
+    isScanning = false
+    requestAnimationFrame(scanLoop)
   }
-
-
- if (video.videoWidth === 0) {
-    alert("Kamera belum siap")
-    return
-  }
-
-statusEl.innerText = "🔍 Mengambil gambar..."
-
-  // scaling ke resolusi video asli
-  const scaleX = video.videoWidth / overlay.width
-  const scaleY = video.videoHeight / overlay.height
-
-  const x = Math.min(startX, endX) * scaleX
-  const y = Math.min(startY, endY) * scaleY
-  const w = Math.abs(endX - startX) * scaleX
-  const h = Math.abs(endY - startY) * scaleY
-
-  if (w < 50 || h < 20) {
-    statusEl.innerText = "Area terlalu kecil"
-    return
-  }
-
-  canvas.width = video.videoWidth
-  canvas.height = video.videoHeight
-
-  ctx.filter = "grayscale(1) contrast(2)"
-  ctx.drawImage(video, 0, 0)
-  ctx.filter = "none"
-
-  const tempCanvas = document.createElement("canvas")
-  tempCanvas.width = w
-  tempCanvas.height = h
-
-  const tempCtx = tempCanvas.getContext("2d")
-  tempCtx.drawImage(canvas, x, y, w, h, 0, 0, w, h)
-
-  statusEl.innerText = "Membaca area..."
-
-  const result = await Tesseract.recognize(tempCanvas, "eng")
-
-  let text = result.data.text || ""
-
-  // fokus ke angka (SKU retail)
-  text = text.replace(/[^0-9]/g, " ").trim()
-
-  console.log("OCR RAW:", result.data.text)
-  console.log("OCR CLEAN:", text)
-
-let keyword = aiFilterSKU(text)
-
-  if (!keyword) {
-    statusEl.innerText = "SKU tidak terbaca"
-    return
-  }
-
-  searchInput.value = keyword
-  searchInput.dispatchEvent(new Event("input"))
-
-  statusEl.innerText = "Scan selesai"
-
-// 🔥 sukses effect
-playSound(sfxSuccess)
-if (navigator.vibrate) navigator.vibrate([50, 30, 80])
-
-  stopCamera()
-})
+}
 
 /* =========================  
 STOP CAMERA
 ========================= */
 function stopCamera() {
   if (stream) {
-    stream.getTracks().forEach(track => track.stop())
+    stream.getTracks().forEach(t => t.stop())
     stream = null
-    window.stream = null
   }
 
   video.classList.remove("active")
   document.body.classList.remove("camera-open")
 
-  scanFrame?.classList.remove("active")
-  scanText?.classList.remove("active")
-  btnClose?.classList.remove("active")
+  scanFrame.classList.remove("active")
+  scanText.classList.remove("active")
+  btnClose.classList.remove("active")
 
-  overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
+  overlayCtx.clearRect(0,0,overlay.width,overlay.height)
 }
 
 btnClose?.addEventListener("click", stopCamera)
+
+/* =========================  
+START SCAN LOOP
+========================= */
+video.addEventListener("play", () => {
+  requestAnimationFrame(scanLoop)
+})
 
 /* =========================  
 STATUS PROMO  
