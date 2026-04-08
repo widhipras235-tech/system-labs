@@ -148,23 +148,31 @@ if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
   recognition = new SpeechRecognition()
   recognition.lang = "id-ID"
 
+  recognition.continuous = false
+  recognition.interimResults = false
+  recognition.maxAlternatives = 1
+
   recognition.onstart = () => {
     isListening = true
     statusEl.innerText = "🎤 Listening..."
   }
 
   recognition.onresult = (e) => {
-    let text = ""
-    for (let i=0;i<e.results.length;i++) {
-      text += e.results[i][0].transcript + " "
-    }
+  let text = ""
 
-    let processed = wordsToNumber(text)
-    let keyword = aiFilterSKU(processed)
-
-    searchInput.value = keyword
-    searchInput.dispatchEvent(new Event("input"))
+  for (let i = 0; i < e.results.length; i++) {
+    text += e.results[i][0].transcript + " "
   }
+
+  let processed = wordsToNumber(text)
+
+  console.log("VOICE:", processed) // 🔥 DEBUG
+
+  if (!processed) return
+
+  searchInput.value = processed
+  searchInput.dispatchEvent(new Event("input"))
+}
 
   recognition.onend = () => {
     isListening = false
@@ -190,6 +198,7 @@ btnCamera.addEventListener("click", async () => {
   })
 
   video.srcObject = stream
+  video.muted = true
   video.play()
 
   overlay.width = window.innerWidth
@@ -224,18 +233,23 @@ function isInsideFrame(box) {
 async function scanLoop() {
   if (!stream) return
 
-  if (!isScanning) {
-    isScanning = true
+  if (isScanning) {
+    requestAnimationFrame(scanLoop)
+    return
+  }
 
+  isScanning = true
+
+  try {
     canvas.width = video.videoWidth
     canvas.height = video.videoHeight
+
     ctx.drawImage(video, 0, 0)
 
     const result = await Tesseract.recognize(canvas, "eng")
 
-    overlayCtx.clearRect(0,0,overlay.width,overlay.height)
+    overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
 
-    // 🔥 highlight semua kandidat angka SKU
     result.data.words.forEach(w => {
       if (!w.text.match(/\d{5,}/)) return
 
@@ -243,24 +257,29 @@ async function scanLoop() {
 
       overlayCtx.strokeStyle = "rgba(0,255,0,0.5)"
       overlayCtx.lineWidth = 2
-      overlayCtx.strokeRect(b.x0, b.y0, b.x1-b.x0, b.y1-b.y0)
+      overlayCtx.strokeRect(b.x0, b.y0, b.x1 - b.x0, b.y1 - b.y0)
     })
 
     let keyword = aiFilterSKUPro(result.data.words)
+
+    console.log("SCAN:", keyword) // 🔥 DEBUG
 
     if (keyword) {
       searchInput.value = keyword
       searchInput.dispatchEvent(new Event("input"))
 
-      playBeep(1200,100)
+      playBeep(1200, 100)
 
       stopCamera()
       return
     }
 
-    isScanning = false
-    requestAnimationFrame(scanLoop)
+  } catch (err) {
+    console.log("OCR ERROR:", err)
   }
+
+  isScanning = false
+  requestAnimationFrame(scanLoop)
 }
 
 /* =========================  
