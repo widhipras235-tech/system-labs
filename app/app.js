@@ -12,6 +12,7 @@ let stream = null
 let isScanning = false
 
 let lastScanTime = 0
+let lastOCRTime = 0
 
 const MAX_RESULT = 30  
 
@@ -240,7 +241,14 @@ async function scanLoop() {
     return
   }
 
+  // 🔥 BATASI OCR BIAR TIDAK LAG
+  if (Date.now() - lastOCRTime < 700) {
+    requestAnimationFrame(scanLoop)
+    return
+  }
+
   isScanning = true
+  lastOCRTime = Date.now()
 
   try {
     canvas.width = video.videoWidth
@@ -248,74 +256,75 @@ async function scanLoop() {
 
     ctx.drawImage(video, 0, 0)
 
-    const result = await Tesseract.recognize(canvas, "eng", {
-  logger: m => console.log(m), // 🔥 LIHAT PROSES OCR
-  tessedit_char_whitelist: "0123456789"
-})
+    // 🔥 FIX ERROR TESSERACT (WAJIB)
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg"))
+
+    const result = await Tesseract.recognize(blob, "eng", {
+      logger: m => console.log(m),
+      tessedit_char_whitelist: "0123456789",
+      tessedit_pageseg_mode: 6
+    })
 
     overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
 
+    // 🔥 DRAW BOX
     result.data.words.forEach(w => {
-  if (!w.text.match(/\d{4,}/)) return
+      if (!w.text.match(/\d{4,}/)) return
 
-  const b = w.bbox
+      const b = w.bbox
 
-  const scaleX = overlay.width / canvas.width
-  const scaleY = overlay.height / canvas.height
+      const scaleX = overlay.width / canvas.width
+      const scaleY = overlay.height / canvas.height
 
-  const x = b.x0 * scaleX
-  const y = b.y0 * scaleY
-  const wBox = (b.x1 - b.x0) * scaleX
-  const hBox = (b.y1 - b.y0) * scaleY
+      const x = b.x0 * scaleX
+      const y = b.y0 * scaleY
+      const wBox = (b.x1 - b.x0) * scaleX
+      const hBox = (b.y1 - b.y0) * scaleY
 
-  overlayCtx.strokeStyle = "rgba(0,255,0,0.8)"
-  overlayCtx.lineWidth = 2
-  overlayCtx.strokeRect(x, y, wBox, hBox)
-})
+      overlayCtx.strokeStyle = "rgba(0,255,0,0.8)"
+      overlayCtx.lineWidth = 2
+      overlayCtx.strokeRect(x, y, wBox, hBox)
+    })
 
+    // 🔥 FILTER HANYA DI DALAM FRAME
     const wordsInFrame = result.data.words.filter(w => {
-  const b = w.bbox
+      const b = w.bbox
 
-  const scaleX = overlay.width / canvas.width
-  const scaleY = overlay.height / canvas.height
+      const scaleX = overlay.width / canvas.width
+      const scaleY = overlay.height / canvas.height
 
-  const cx = ((b.x0 + b.x1) / 2) * scaleX
-  const cy = ((b.y0 + b.y1) / 2) * scaleY
+      const cx = ((b.x0 + b.x1) / 2) * scaleX
+      const cy = ((b.y0 + b.y1) / 2) * scaleY
 
-  const frame = scanFrame.getBoundingClientRect()
+      const frame = scanFrame.getBoundingClientRect()
 
-  return (
-    cx > frame.left &&
-    cx < frame.right &&
-    cy > frame.top &&
-    cy < frame.bottom
-  )
-})
+      return (
+        cx > frame.left &&
+        cx < frame.right &&
+        cy > frame.top &&
+        cy < frame.bottom
+      )
+    })
 
-console.log("WORDS:", result.data.words)
-console.log("RAW TEXT:", result.data.text)
+    console.log("WORDS:", result.data.words)
+    console.log("IN FRAME:", wordsInFrame)
 
-let keyword = ""
+    // 🔥 PAKAI AI FILTER (FIX UTAMA)
+    let keyword = aiFilterSKUPro(wordsInFrame)
 
-for (let w of result.data.words) {
-  if (w.text.match(/\d{5,}/)) {
-    keyword = w.text
-    break
-  }
-}
-    console.log("SCAN:", keyword) // 🔥 DEBUG
+    console.log("SCAN:", keyword)
 
     if (keyword && Date.now() - lastScanTime > 1500) {
-  lastScanTime = Date.now()
+      lastScanTime = Date.now()
 
-  searchInput.value = keyword
-  searchInput.dispatchEvent(new Event("input"))
+      searchInput.value = keyword
+      searchInput.dispatchEvent(new Event("input"))
 
-  playBeep(1200, 100)
+      playBeep(1200, 100)
 
-  stopCamera()
-  return
-}
+      stopCamera()
+      return
+    }
 
   } catch (err) {
     console.log("OCR ERROR:", err)
