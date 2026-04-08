@@ -11,6 +11,8 @@ let audioCtx = null
 let stream = null
 let isScanning = false
 
+let lastScanTime = 0
+
 const MAX_RESULT = 30  
 
 /* =========================  
@@ -246,33 +248,65 @@ async function scanLoop() {
 
     ctx.drawImage(video, 0, 0)
 
-    const result = await Tesseract.recognize(canvas, "eng")
+    const result = await Tesseract.recognize(canvas, "eng", {
+  tessedit_char_whitelist: "0123456789",
+  preserve_interword_spaces: "1"
+})
 
     overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
 
     result.data.words.forEach(w => {
-      if (!w.text.match(/\d{5,}/)) return
+  if (!w.text.match(/\d{5,}/)) return
 
-      const b = w.bbox
+  const b = w.bbox
 
-      overlayCtx.strokeStyle = "rgba(0,255,0,0.5)"
-      overlayCtx.lineWidth = 2
-      overlayCtx.strokeRect(b.x0, b.y0, b.x1 - b.x0, b.y1 - b.y0)
-    })
+  const scaleX = overlay.width / canvas.width
+  const scaleY = overlay.height / canvas.height
 
-    let keyword = aiFilterSKUPro(result.data.words)
+  const x = b.x0 * scaleX
+  const y = b.y0 * scaleY
+  const wBox = (b.x1 - b.x0) * scaleX
+  const hBox = (b.y1 - b.y0) * scaleY
+
+  overlayCtx.strokeStyle = "rgba(0,255,0,0.8)"
+  overlayCtx.lineWidth = 2
+  overlayCtx.strokeRect(x, y, wBox, hBox)
+})
+
+    const wordsInFrame = result.data.words.filter(w => {
+  const b = w.bbox
+
+  const scaleX = overlay.width / canvas.width
+  const scaleY = overlay.height / canvas.height
+
+  const cx = ((b.x0 + b.x1) / 2) * scaleX
+  const cy = ((b.y0 + b.y1) / 2) * scaleY
+
+  const frame = scanFrame.getBoundingClientRect()
+
+  return (
+    cx > frame.left &&
+    cx < frame.right &&
+    cy > frame.top &&
+    cy < frame.bottom
+  )
+})
+
+let keyword = aiFilterSKUPro(wordsInFrame)
 
     console.log("SCAN:", keyword) // 🔥 DEBUG
 
-    if (keyword) {
-      searchInput.value = keyword
-      searchInput.dispatchEvent(new Event("input"))
+    if (keyword && Date.now() - lastScanTime > 1500) {
+  lastScanTime = Date.now()
 
-      playBeep(1200, 100)
+  searchInput.value = keyword
+  searchInput.dispatchEvent(new Event("input"))
 
-      stopCamera()
-      return
-    }
+  playBeep(1200, 100)
+
+  stopCamera()
+  return
+}
 
   } catch (err) {
     console.log("OCR ERROR:", err)
