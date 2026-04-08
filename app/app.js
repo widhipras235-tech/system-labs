@@ -249,14 +249,14 @@ async function scanLoop() {
     ctx.drawImage(video, 0, 0)
 
     const result = await Tesseract.recognize(canvas, "eng", {
-  tessedit_char_whitelist: "0123456789",
-  preserve_interword_spaces: "1"
+  logger: m => console.log(m), // 🔥 LIHAT PROSES OCR
+  tessedit_char_whitelist: "0123456789"
 })
 
     overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
 
     result.data.words.forEach(w => {
-  if (!w.text.match(/\d{5,}/)) return
+  if (!w.text.match(/\d{4,}/)) return
 
   const b = w.bbox
 
@@ -292,8 +292,17 @@ async function scanLoop() {
   )
 })
 
-let keyword = aiFilterSKUPro(wordsInFrame)
+console.log("WORDS:", result.data.words)
+console.log("RAW TEXT:", result.data.text)
 
+let keyword = ""
+
+for (let w of result.data.words) {
+  if (w.text.match(/\d{5,}/)) {
+    keyword = w.text
+    break
+  }
+}
     console.log("SCAN:", keyword) // 🔥 DEBUG
 
     if (keyword && Date.now() - lastScanTime > 1500) {
