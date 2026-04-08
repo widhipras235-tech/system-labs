@@ -1,0 +1,5 @@
+# ignore specific files
+auto-upload.js
+app/convert.js
+app/convert_smart.js
+app/build_simple.js
