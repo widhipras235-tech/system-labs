@@ -288,30 +288,40 @@ async function scanLoop() {
 
     // 🔥 FILTER HANYA DI DALAM FRAME
     const wordsInFrame = result.data.words.filter(w => {
-      const b = w.bbox
+  const b = w.bbox
 
-      const scaleX = overlay.width / canvas.width
-      const scaleY = overlay.height / canvas.height
+  // 👉 center dalam koordinat canvas (ASLI OCR)
+  const cx = (b.x0 + b.x1) / 2
+  const cy = (b.y0 + b.y1) / 2
 
-      const cx = ((b.x0 + b.x1) / 2) * scaleX
-      const cy = ((b.y0 + b.y1) / 2) * scaleY
+  // 👉 ukuran video di layar
+  const videoRect = video.getBoundingClientRect()
+  const frameRect = scanFrame.getBoundingClientRect()
 
-      const frame = scanFrame.getBoundingClientRect()
+  // 👉 convert canvas → screen (viewport)
+  const scaleX = videoRect.width / canvas.width
+  const scaleY = videoRect.height / canvas.height
 
-      return (
-        cx > frame.left &&
-        cx < frame.right &&
-        cy > frame.top &&
-        cy < frame.bottom
-      )
-    })
+  const screenX = videoRect.left + (cx * scaleX)
+  const screenY = videoRect.top + (cy * scaleY)
 
+  // 👉 cek apakah masuk frame
+  const padding = 20
+
+return (
+  screenX > frameRect.left + padding &&
+  screenX < frameRect.right - padding &&
+  screenY > frameRect.top + padding &&
+  screenY < frameRect.bottom - padding
+)
+})
     console.log("WORDS:", result.data.words)
     console.log("IN FRAME:", wordsInFrame)
 
     // 🔥 PAKAI AI FILTER (FIX UTAMA)
-    let keyword = aiFilterSKUPro(wordsInFrame)
-
+    let keyword = wordsInFrame.length
+  ? aiFilterSKUPro(wordsInFrame)
+  : ""
     console.log("SCAN:", keyword)
 
     if (keyword && Date.now() - lastScanTime > 1500) {
