@@ -157,74 +157,33 @@ AUTO HIDE ANIMATION
   pointer-events: none;
 }
 
-/* =========================
-SCAN FRAME (🔥 PENTING)
-========================= */
-#scanFrame {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 80%;
-  height: 120px;
-  transform: translate(-50%, -50%);
-  border: 3px solid #00ffcc;
-  border-radius: 12px;
-  display: none;
-  z-index: 1001;
-}
-
-#scanFrame.active {
-  display: block;
-}
-
-/* TEXT FRAME */
 #scanText {
   position: fixed;
-  bottom: 100px;
-  width: 100%;
-  text-align: center;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+
   color: white;
-  font-size: 16px;
-  display: none;
-  z-index: 1001;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+
+  z-index: 1002;
+  pointer-events: none;
+
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 #scanText.active {
-  display: block;
-}
-
-#camera {
-  z-index: 999;
-}
-
-#overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1002;
-  pointer-events: none;
-}
-
-#scanFrame::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: red;
-  animation: scanLine 2s infinite;
-}
-
-@keyframes scanLine {
-  0% { top: 0; }
-  100% { top: 100%; }
-}
-
-#scanFrame {
-  z-index: 1003;
+  opacity: 1;
 }
 
 #scanText {
-  z-index: 1003;
+  backdrop-filter: blur(4px);
+  padding: 6px 12px;
+  border-radius: 10px;
 }
 
 </style>
@@ -277,10 +236,9 @@ SCAN FRAME (🔥 PENTING)
 <video id="camera" autoplay playsinline class="camera"></video>
 
 <!-- OVERLAY (WAJIB untuk drag scan) -->
-<canvas id="overlay"></canvas>
+<canvas id="overlay" class="camera"></canvas>
 
-<div id="scanFrame"></div>
-<div id="scanText">Arahkan SKU ke dalam frame</div>
+<div id="scanText">Usap layar arahkan ke SKU</div>
 
 <!-- CANVAS OCR -->
 <canvas id="canvas" style="display:none"></canvas>
