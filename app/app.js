@@ -8,7 +8,7 @@ let isReady = false
 let lastScanSound = 0
 let audioCtx = null
 
-const MAX_RESULT = 30  
+const MAX_RESULT = 100
 const TOTAL_FILE = 100  
 
 /* =========================  
