@@ -9,7 +9,7 @@ background:#f4f4f4;
 .header{
 
 background:#ff2d2d;
-padding:15px;
+padding:16px 20px 10px;
 
 color:white;
 text-align:center;
@@ -25,8 +25,8 @@ font-size:26px;
 }
 
 .logo p{
-margin:5px 0 10px;
-font-size:13px;
+  margin:5px 0 4px; /* 🔥 diperkecil */
+  font-size:13px;
 }
 
 /* SEARCH */
@@ -48,6 +48,10 @@ border:none;
 
 font-size:14px;
 
+}
+
+.search-box{
+  margin-top: 4px; /* 🔥 mendekatkan ke teks */
 }
 
 .search-btn{
