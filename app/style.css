@@ -34,18 +34,24 @@ HEADER
 }
 
 .logo p{
-  margin:2px 0 0;
-  font-size:12px;
+  margin-bottom: 2px;
+}
+
+.search-box{
+  margin-top: 0px;
 }
 
 /* =========================
 SEARCH
 ========================= */
+.header-search{
+  margin-top: 4px; /* jarak dari teks */
+}
+
 .search-box{
   display:flex;
+  align-items:center;
   justify-content:center;
-
-  margin-top: -8px; /* 🔥 bikin rapat ke atas */
 }
 
 .search-box input{
@@ -58,15 +64,25 @@ SEARCH
   font-size:14px;
 }
 
+/* FIX tombol biar tidak ganggu layout */
 .search-btn{
-  margin-left:-40px;
+  margin-left:-35px; /* lebih kecil biar tidak overlap parah */
   background:none;
   border:none;
   color:white;
 
   width:32px;
   height:32px;
-  border-radius:50%;
+}
+
+.header-top{
+  position: relative;
+  z-index: 2;
+}
+
+.header-search{
+  position: relative;
+  z-index: 1;
 }
 
 /* =========================
