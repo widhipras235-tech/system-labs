@@ -199,12 +199,28 @@ HEADER COLLAPSE (SCROLL)
 ========================= */
 .header-top{
   transition: all 0.3s ease;
+
+  /* ✅ FIX UTAMA */
+  height: auto;
+  opacity: 1;
+  overflow: visible;
 }
 
 .header.hide .header-top{
   height:0;
   overflow:hidden;
   opacity:0;
+}
+
+.header:not(.hide) .header-top{
+  height: auto;
+  opacity: 1;
+  overflow: visible;
+}
+
+.header-top{
+  padding: 0;
+  margin-bottom: 2px;
 }
 
 /* =========================
