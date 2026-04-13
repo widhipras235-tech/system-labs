@@ -997,7 +997,7 @@ window.addEventListener("scroll", () => {
 })
 
 /* =========================
-HEADER AUTO HIDE
+HEADER AUTO HIDE (FIX)
 ========================= */
 
 const header = document.getElementById("header")
@@ -1008,17 +1008,20 @@ let tickingHeader = false
 function handleHeaderScroll() {
   const current = window.scrollY
 
-  // scroll turun → hide logo
+  // ❗ FIX: kalau di atas → jangan hide
+  if (current < 20) {
+    header.classList.remove("hide")
+    lastScrollHeader = current
+    tickingHeader = false
+    return
+  }
+
+  // scroll turun → hide
   if (current > lastScrollHeader + 10) {
     header.classList.add("hide")
   }
-  // scroll naik → tampilkan lagi
+  // scroll naik → show
   else if (current < lastScrollHeader - 10) {
-    header.classList.remove("hide")
-  }
-
-  // kalau di paling atas → selalu tampil full
-  if (current < 20) {
     header.classList.remove("hide")
   }
 
