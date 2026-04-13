@@ -33,12 +33,12 @@ HEADER
 
 /* LOGO */
 .logo h1{
-  margin:0;
+  margin:10px;
   font-size:28px;
 }
 
 .logo p{
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 
 .search-box{
