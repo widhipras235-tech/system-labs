@@ -995,3 +995,40 @@ window.addEventListener("scroll", () => {
     tickingScroll = true
   }
 })
+
+/* =========================
+HEADER AUTO HIDE
+========================= */
+
+const header = document.getElementById("header")
+
+let lastScrollHeader = window.scrollY
+let tickingHeader = false
+
+function handleHeaderScroll() {
+  const current = window.scrollY
+
+  // scroll turun → hide logo
+  if (current > lastScrollHeader + 10) {
+    header.classList.add("hide")
+  }
+  // scroll naik → tampilkan lagi
+  else if (current < lastScrollHeader - 10) {
+    header.classList.remove("hide")
+  }
+
+  // kalau di paling atas → selalu tampil full
+  if (current < 20) {
+    header.classList.remove("hide")
+  }
+
+  lastScrollHeader = current
+  tickingHeader = false
+}
+
+window.addEventListener("scroll", () => {
+  if (!tickingHeader) {
+    requestAnimationFrame(handleHeaderScroll)
+    tickingHeader = true
+  }
+})
