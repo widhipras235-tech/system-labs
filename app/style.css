@@ -33,7 +33,7 @@ HEADER
 
 /* LOGO */
 .logo h1{
-  margin:10px;
+  margin-bottom: 0px;
   font-size:28px;
 }
 
