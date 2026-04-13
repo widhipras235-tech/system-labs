@@ -7,6 +7,10 @@ body{
   background:#f4f4f4;
 }
 
+main{
+  padding:40px 15px 15px; /* 🔥 tambahin atas */
+}
+
 /* =========================
 HEADER
 ========================= */
@@ -42,47 +46,48 @@ HEADER
 }
 
 /* =========================
-SEARCH
+HEADER SEARCH FLOATING
 ========================= */
 .header-search{
-  margin-top: 4px; /* jarak dari teks */
+  position: relative;
+  height: 30px; /* ruang untuk floating */
 }
 
+/* SEARCH BOX FLOAT */
 .search-box{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  bottom: -20px; /* 🔥 kunci: keluar dari header */
+
+  width: 85%;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
+/* INPUT */
 .search-box input{
-  width:80%;
-  padding:12px;
+  width:100%;
+  padding:12px 16px;
 
   border-radius:25px;
   border:none;
 
   font-size:14px;
+
+  box-shadow:0 4px 12px rgba(0,0,0,0.15); /* 🔥 biar floating */
 }
 
-/* FIX tombol biar tidak ganggu layout */
+/* ICON */
 .search-btn{
-  margin-left:-35px; /* lebih kecil biar tidak overlap parah */
+  position:absolute;
+  right:15px;
+
   background:none;
   border:none;
-  color:white;
-
-  width:32px;
-  height:32px;
-}
-
-.header-top{
-  position: relative;
-  z-index: 2;
-}
-
-.header-search{
-  position: relative;
-  z-index: 1;
+  font-size:16px;
 }
 
 /* =========================
