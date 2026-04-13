@@ -223,3 +223,48 @@ color:white;
 box-shadow:0 6px 12px rgba(0,0,0,0.2);
 
 }
+
+/* HEADER WRAPPER */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ff2d2d;
+  transition: all 0.3s ease;
+}
+
+/* BAGIAN ATAS (LOGO) */
+.header-top {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* SEARCH BAR */
+.header-search {
+  padding: 10px;
+  background: #ff2d2d;
+}
+
+/* SAAT COLLAPSE */
+.header.hide .header-top {
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* SEARCH JADI COMPACT */
+.header.hide .header-search {
+  padding: 8px;
+}
+
+/* SEARCH INPUT FULL */
+.header-search .search-box input {
+  width: 100%;
+}
+
+.header {
+  backdrop-filter: blur(10px);
+}
