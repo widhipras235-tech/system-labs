@@ -1,286 +1,221 @@
+/* =========================
+GLOBAL
+========================= */
 body{
-font-family:Arial;
-margin:0;
-background:#f4f4f4;
+  font-family:Arial;
+  margin:0;
+  background:#f4f4f4;
 }
 
-/* HEADER */
-
+/* =========================
+HEADER
+========================= */
 .header{
-
-background:#ff2d2d;
-padding:16px 20px 10px;
-
-color:white;
-text-align:center;
-
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
-
-}
-
-.logo h1{
-margin:0;
-font-size:26px;
-}
-
-.logo p{
-  margin:5px 0 4px; /* 🔥 diperkecil */
-  font-size:13px;
-}
-
-.logo h1{
-  margin-bottom: 2px;
-}
-
-.logo p{
-  margin-bottom: 2px;
-}
-
-.search-box{
-  margin-top: 2px;
-}
-
-/* SEARCH */
-
-.search-box{
-
-display:flex;
-justify-content:center;
-
-}
-
-.search-box input{
-
-width:80%;
-padding:12px;
-
-border-radius:25px;
-border:none;
-
-font-size:14px;
-
-}
-
-.search-box{
-  margin-top: 4px; /* 🔥 mendekatkan ke teks */
-}
-
-.search-btn{
-
-margin-left:-40px;
-
-background:none;
-
-border:none;
-
-color:white;
-
-width:32px;
-height:32px;
-
-border-radius:50%;
-
-}
-
-.filter{
-
-margin-top:10px;
-
-}
-
-.filter select{
-
-padding:6px;
-border-radius:6px;
-
-}
-
-/* CONTENT */
-
-main{
-
-padding:15px;
-
-}
-
-/* CARD */
-
-.card{
-
-background:white;
-
-padding:16px;
-
-border-radius:15px;
-
-margin-bottom:15px;
-
-box-shadow:0 4px 10px rgba(0,0,0,0.12);
-
-}
-
-.card-header{
-
-display:flex;
-justify-content:space-between;
-
-}
-
-.title{
-
-font-weight:bold;
-font-size:15px;
-
-}
-
-/* STATUS */
-
-.status{
-display:inline-block;
-padding:4px 10px;
-border-radius:6px;
-font-size:12px;
-font-weight:bold;
-color:white;
-}
-
-.status.aktif{
-background:#2ecc71;
-}
-
-.status.belum{
-background:#f1c40f;
-color:#000;
-}
-
-.status.habis{
-background:#7f8c8d;
-}
-
-/* PRICE */
-
-.price-normal{
-
-font-size:13px;
-
-color:#888;
-
-margin-top:4px;
-
-}
-
-.price-normal.coret{
-
-text-decoration:line-through;
-
-}
-
-.price-promo{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#d50000;
-
-margin-top:2px;
-
-}
-
-/* DISKON */
-
-.diskon{
-
-color:#1b8e3e;
-
-font-weight:bold;
-
-margin-top:4px;
-
-}
-
-/* META */
-
-.meta{
-
-margin-top:10px;
-
-font-size:12px;
-
-color:#555;
-
-}
-
-/* SCAN BUTTON */
-
-.scan-btn{
-
-position:fixed;
-
-bottom:20px;
-left:50%;
-
-transform:translateX(-50%);
-
-background:#ff2d2d;
-
-border:none;
-
-width:60px;
-height:60px;
-
-border-radius:50%;
-
-font-size:26px;
-
-color:white;
-
-box-shadow:0 6px 12px rgba(0,0,0,0.2);
-
-}
-
-/* HEADER WRAPPER */
-.header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: #ff2d2d;
-  transition: all 0.3s ease;
-}
 
-/* BAGIAN ATAS (LOGO) */
-.header-top {
-  padding: 15px;
-  text-align: center;
-  color: white;
-  transition: all 0.3s ease;
-}
+  background:#ff2d2d;
+  padding:12px 16px 4px;
+  text-align:center;
+  color:white;
 
-/* SEARCH BAR */
-.header-search {
-  padding: 10px;
-  background: #ff2d2d;
-}
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
 
-/* SAAT COLLAPSE */
-.header.hide .header-top {
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-  opacity: 0;
-}
-
-/* SEARCH JADI COMPACT */
-.header.hide .header-search {
-  padding: 8px;
-}
-
-/* SEARCH INPUT FULL */
-.header-search .search-box input {
-  width: 100%;
-}
-
-.header {
   backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+/* LOGO */
+.logo h1{
+  margin:0;
+  font-size:24px;
+}
+
+.logo p{
+  margin:2px 0 0;
+  font-size:12px;
+}
+
+/* =========================
+SEARCH
+========================= */
+.search-box{
+  display:flex;
+  justify-content:center;
+
+  margin-top: -12px; /* 🔥 bikin rapat ke atas */
+}
+
+.search-box input{
+  width:80%;
+  padding:12px;
+
+  border-radius:25px;
+  border:none;
+
+  font-size:14px;
+}
+
+.search-btn{
+  margin-left:-40px;
+  background:none;
+  border:none;
+  color:white;
+
+  width:32px;
+  height:32px;
+  border-radius:50%;
+}
+
+/* =========================
+FILTER
+========================= */
+.filter{
+  margin-top:10px;
+}
+
+.filter select{
+  padding:6px;
+  border-radius:6px;
+}
+
+/* =========================
+CONTENT
+========================= */
+main{
+  padding:15px;
+}
+
+/* =========================
+CARD
+========================= */
+.card{
+  background:white;
+  padding:16px;
+  border-radius:15px;
+  margin-bottom:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.12);
+}
+
+.card-header{
+  display:flex;
+  justify-content:space-between;
+}
+
+.title{
+  font-weight:bold;
+  font-size:15px;
+}
+
+/* =========================
+STATUS
+========================= */
+.status{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:bold;
+  color:white;
+}
+
+.status.aktif{
+  background:#2ecc71;
+}
+
+.status.belum{
+  background:#f1c40f;
+  color:#000;
+}
+
+.status.habis{
+  background:#7f8c8d;
+}
+
+/* =========================
+PRICE
+========================= */
+.price-normal{
+  font-size:13px;
+  color:#888;
+  margin-top:4px;
+}
+
+.price-normal.coret{
+  text-decoration:line-through;
+}
+
+.price-promo{
+  font-size:22px;
+  font-weight:bold;
+  color:#d50000;
+  margin-top:2px;
+}
+
+/* =========================
+DISKON
+========================= */
+.diskon{
+  color:#1b8e3e;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+/* =========================
+META
+========================= */
+.meta{
+  margin-top:10px;
+  font-size:12px;
+  color:#555;
+}
+
+/* =========================
+SCAN BUTTON
+========================= */
+.scan-btn{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+
+  background:#ff2d2d;
+  border:none;
+
+  width:60px;
+  height:60px;
+
+  border-radius:50%;
+  font-size:26px;
+  color:white;
+
+  box-shadow:0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* =========================
+HEADER COLLAPSE (SCROLL)
+========================= */
+.header-top{
+  transition: all 0.3s ease;
+}
+
+.header.hide .header-top{
+  height:0;
+  overflow:hidden;
+  opacity:0;
+}
+
+/* =========================
+AUTO HIDE SCAN BAR
+========================= */
+#scanBar{
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#scanBar.hide{
+  transform: translateX(-50%) translateY(120px);
+  opacity:0;
+  pointer-events:none;
 }
