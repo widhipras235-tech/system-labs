@@ -29,6 +29,18 @@ font-size:26px;
   font-size:13px;
 }
 
+.logo h1{
+  margin-bottom: 2px;
+}
+
+.logo p{
+  margin-bottom: 2px;
+}
+
+.search-box{
+  margin-top: 2px;
+}
+
 /* SEARCH */
 
 .search-box{
