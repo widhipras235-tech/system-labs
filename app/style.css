@@ -31,6 +31,10 @@ HEADER
   transition: all 0.3s ease;
 }
 
+.header{
+  transition: transform 0.3s ease;
+}
+
 /* LOGO */
 .logo h1{
   margin-bottom: 0px;
@@ -212,12 +216,6 @@ HEADER COLLAPSE (SMOOTH SLIDE)
 ========================= */
 .header-top{
   transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* saat scroll turun */
-.header.hide .header-top{
-  transform: translateY(-100%);
-  opacity: 0;
 }
 
 .header.hide{
