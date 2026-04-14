@@ -196,14 +196,8 @@ let endX = 0
 let endY = 0
 
 // overlay untuk kotak seleksi
-const overlay = document.createElement("canvas")
+const overlay = document.getElementById("overlay")
 const overlayCtx = overlay.getContext("2d")
-
-overlay.style.position = "fixed"
-overlay.style.inset = "0"
-overlay.style.pointerEvents = "none"
-
-document.body.appendChild(overlay)
 
 /* =========================  
 AI FILTER
@@ -257,12 +251,11 @@ btnCamera.addEventListener("click", async () => {
     video.srcObject = stream
 
     video.onloadedmetadata = () => {
-      video.play()
-    }
+  video.play()
 
-    // sync overlay size
-    overlay.width = window.innerWidth
-    overlay.height = window.innerHeight
+  overlay.width = video.clientWidth
+  overlay.height = video.clientHeight
+}
 
     video.classList.add("active")
     document.body.classList.add("camera-open")
@@ -309,18 +302,21 @@ video.addEventListener("touchstart", (e) => {
 
   isDrawing = true
 
+  const rect = video.getBoundingClientRect()
   const touch = e.touches[0]
 
-  startX = touch.clientX
-  startY = touch.clientY
+  startX = touch.clientX - rect.left
+  startY = touch.clientY - rect.top
 })
 
 video.addEventListener("touchmove", (e) => {
   if (!isDrawing) return
 
+  const rect = video.getBoundingClientRect()
   const touch = e.touches[0]
-  endX = touch.clientX
-  endY = touch.clientY
+
+  endX = touch.clientX - rect.left
+  endY = touch.clientY - rect.top
 
   overlayCtx.clearRect(0, 0, overlay.width, overlay.height)
 
