@@ -49,7 +49,12 @@ HEADER
 SEARCH NORMAL (PERSIS UI TARGET)
 ========================= */
 .header-search{
-  margin-top: 8px; /* jarak dari teks */
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  background:#ff2d2d; /* penting biar ga transparan */
+  padding-bottom: 8px;
 }
 
 .search-box{
@@ -203,21 +208,20 @@ SCAN BUTTON
 }
 
 /* =========================
-HEADER COLLAPSE (SCROLL)
+HEADER COLLAPSE (SMOOTH SLIDE)
 ========================= */
 .header-top{
-  transition: all 0.3s ease;
-
-  /* ✅ FIX UTAMA */
-  height: auto;
-  opacity: 1;
-  overflow: visible;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* saat scroll turun */
 .header.hide .header-top{
-  height:0;
-  overflow:hidden;
-  opacity:0;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.header.hide{
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .header:not(.hide) .header-top{
