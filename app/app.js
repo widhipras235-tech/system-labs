@@ -1,4 +1,4 @@
-/* =========================  
+UU/* =========================  
 STATE  
 ========================= */  
 let skuIndex = {}  
@@ -1001,28 +1001,30 @@ HEADER AUTO HIDE (FIX)
 ========================= */
 
 const header = document.getElementById("header")
+const headerTop = document.querySelector(".header-top")
 
 let lastScroll = window.scrollY
 let ticking = false
 
 function handleScroll() {
   const current = window.scrollY
+  const topHeight = headerTop.offsetHeight
 
-  // kalau di atas → normal
+  // kalau di atas → reset
   if (current < 20) {
-    header.classList.remove("hide")
+    header.style.transform = "translateY(0)"
     lastScroll = current
     ticking = false
     return
   }
 
-  // scroll turun
-  if (current > lastScroll + 5) {
-    header.classList.add("hide")
+  // scroll turun → geser header ke atas (sebesar tinggi header-top)
+  if (current > lastScroll) {
+    header.style.transform = `translateY(-${topHeight}px)`
   } 
-  // scroll naik
-  else if (current < lastScroll - 5) {
-    header.classList.remove("hide")
+  // scroll naik → balikin
+  else {
+    header.style.transform = "translateY(0)"
   }
 
   lastScroll = current
