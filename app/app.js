@@ -1003,27 +1003,21 @@ AUTO HIDE HEADER (SCROLL)
 const header = document.getElementById("header")
 const headerTop = document.querySelector(".header-top")
 
-let lastScroll = window.scrollY
 let ticking = false
 
 function handleScroll() {
   const current = window.scrollY
   const topHeight = headerTop.offsetHeight
 
-  if (current < 20) {
+  // 🔥 HANYA di paling atas → full header
+  if (current < 10) {
     header.style.transform = "translateY(0)"
-    lastScroll = current
-    ticking = false
-    return
+  } 
+  // selain itu → selalu collapse
+  else {
+    header.style.transform = `translateY(-${topHeight + 10}px)`
   }
 
-  if (current > lastScroll) {
-    header.style.transform = `translateY(-${topHeight}px)`
-  } else {
-    header.style.transform = "translateY(0)"
-  }
-
-  lastScroll = current
   ticking = false
 }
 
