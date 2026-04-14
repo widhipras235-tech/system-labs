@@ -255,7 +255,6 @@ btnCamera.addEventListener("click", async () => {
 
   overlay.width = video.clientWidth
   overlay.height = video.clientHeight
-}
 
     video.classList.add("active")
     document.body.classList.add("camera-open")
