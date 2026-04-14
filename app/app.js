@@ -200,8 +200,7 @@ const overlay = document.createElement("canvas")
 const overlayCtx = overlay.getContext("2d")
 
 overlay.style.position = "fixed"
-overlay.style.inset = "0"
-overlay.style.zIndex = "1002"
+overlay.style.inset = "0"
 overlay.style.pointerEvents = "none"
 
 document.body.appendChild(overlay)
