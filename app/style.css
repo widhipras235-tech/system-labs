@@ -37,12 +37,16 @@ HEADER
 
 /* LOGO */
 .logo h1{
-  margin-bottom: 0px;
-  font-size:28px;
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.1;
 }
 
 .logo p{
-  margin-bottom: 0px;
+  margin: 2px 0 0; /* 🔥 nempel ke logo */
+  font-size: 13px;
+  line-height: 1.2;
+  opacity: 0.9;
 }
 
 .search-box{
@@ -59,6 +63,8 @@ SEARCH NORMAL (PERSIS UI TARGET)
 
   background:#ff2d2d; /* penting biar ga transparan */
   padding-bottom: 8px;
+
+  margin-top: 4px; /* 🔥 lebih rapat */
 }
 
 .search-box{
@@ -230,7 +236,7 @@ HEADER COLLAPSE (SMOOTH SLIDE)
 
 .header-top{
   padding: 0;
-  margin-bottom: 2px;
+  margin-bottom: 0;
 }
 
 /* =========================
