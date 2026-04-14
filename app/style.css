@@ -64,7 +64,7 @@ SEARCH NORMAL (PERSIS UI TARGET)
   background:#ff2d2d; /* penting biar ga transparan */
   padding-bottom: 8px;
 
-  margin-top: 4px; /* 🔥 lebih rapat */
+  margin-top: 10px; /* 🔥 lebih rapat */
 }
 
 .search-box{
@@ -220,23 +220,25 @@ SCAN BUTTON
 /* =========================
 HEADER COLLAPSE (SMOOTH SLIDE)
 ========================= */
+/* animasi */
 .header-top{
   transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow: hidden; /* 🔥 penting */
+}
+
+/* saat scroll turun */
+.header.hide .header-top{
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .header.hide{
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.header:not(.hide) .header-top{
-  height: auto;
-  opacity: 1;
-  overflow: visible;
-}
-
 .header-top{
-  padding: 0;
   margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* =========================
