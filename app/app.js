@@ -1020,7 +1020,7 @@ function handleScroll() {
 
   // scroll turun → geser header ke atas (sebesar tinggi header-top)
   if (current > lastScroll) {
-    header.style.transform = `translateY(-${topHeight + 10}px)`
+    header.style.transform = `translateY(-${topHeight + 10}px)`}
   // scroll naik → balikin
   else {
     header.style.transform = "translateY(0)"
