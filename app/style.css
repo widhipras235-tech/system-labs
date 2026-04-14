@@ -32,6 +32,10 @@ HEADER
 }
 
 .header{
+  will-change: transform;
+}
+
+.header{
   transition: transform 0.3s ease;
 }
 
@@ -220,23 +224,13 @@ SCAN BUTTON
 /* =========================
 HEADER COLLAPSE (SMOOTH SLIDE)
 ========================= */
-/* animasi */
-.header-top{
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  overflow: hidden; /* 🔥 penting */
-}
-
-/* saat scroll turun */
-.header.hide .header-top{
-  transform: translateY(-100%);
-  opacity: 0;
-}
 
 .header.hide{
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .header-top{
+  overflow: hidden;
   margin-bottom: 0;
   padding-bottom: 0;
 }
