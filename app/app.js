@@ -1002,36 +1002,36 @@ HEADER AUTO HIDE (FIX)
 
 const header = document.getElementById("header")
 
-let lastScrollHeader = window.scrollY
-let tickingHeader = false
+let lastScroll = window.scrollY
+let ticking = false
 
-function handleHeaderScroll() {
+function handleScroll() {
   const current = window.scrollY
 
-  // ❗ FIX: kalau di atas → jangan hide
+  // kalau di atas → normal
   if (current < 20) {
     header.classList.remove("hide")
-    lastScrollHeader = current
-    tickingHeader = false
+    lastScroll = current
+    ticking = false
     return
   }
 
-  // scroll turun → hide
-  if (current > lastScrollHeader + 10) {
+  // scroll turun
+  if (current > lastScroll + 5) {
     header.classList.add("hide")
-  }
-  // scroll naik → show
-  else if (current < lastScrollHeader - 10) {
+  } 
+  // scroll naik
+  else if (current < lastScroll - 5) {
     header.classList.remove("hide")
   }
 
-  lastScrollHeader = current
-  tickingHeader = false
+  lastScroll = current
+  ticking = false
 }
 
 window.addEventListener("scroll", () => {
-  if (!tickingHeader) {
-    requestAnimationFrame(handleHeaderScroll)
-    tickingHeader = true
+  if (!ticking) {
+    requestAnimationFrame(handleScroll)
+    ticking = true
   }
 })
