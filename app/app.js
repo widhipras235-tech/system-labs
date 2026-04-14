@@ -253,11 +253,13 @@ btnCamera.addEventListener("click", async () => {
     video.onloadedmetadata = () => {
   video.play()
 
-  overlay.width = video.clientWidth
-  overlay.height = video.clientHeight
+  overlay.width = window.innerWidth
+  overlay.height = window.innerHeight
+  }
 
     video.classList.add("active")
     document.body.classList.add("camera-open")
+    overlay.classList.add("active")
 
     playSound(sfxOpen)
     if (navigator.vibrate) navigator.vibrate([30, 20, 30])
@@ -426,6 +428,7 @@ function stopCamera() {
 
   video.classList.remove("active")
   document.body.classList.remove("camera-open")
+  overlay.classList.remove("active")
 
   scanFrame?.classList.remove("active")
   scanText?.classList.remove("active")
