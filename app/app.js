@@ -997,7 +997,7 @@ window.addEventListener("scroll", () => {
 })
 
 /* =========================
-HEADER AUTO HIDE (FIX)
+AUTO HIDE HEADER (SCROLL)
 ========================= */
 
 const header = document.getElementById("header")
@@ -1010,7 +1010,6 @@ function handleScroll() {
   const current = window.scrollY
   const topHeight = headerTop.offsetHeight
 
-  // kalau di atas → reset
   if (current < 20) {
     header.style.transform = "translateY(0)"
     lastScroll = current
@@ -1018,11 +1017,9 @@ function handleScroll() {
     return
   }
 
-  // scroll turun → geser header ke atas (sebesar tinggi header-top)
   if (current > lastScroll) {
-    header.style.transform = `translateY(-${topHeight + 10}px)`}
-  // scroll naik → balikin
-  else {
+    header.style.transform = `translateY(-${topHeight}px)`
+  } else {
     header.style.transform = "translateY(0)"
   }
 
