@@ -887,7 +887,7 @@ function render(data) {
       </div>  
 
       <div><b>🗒️Acara:</b> ${item.acara || item.raw?.acara || "-"}</div>  
-      <div><b>📑Sumber:</b> ${getFileName(item.source)}</div>  
+      <div><b>📑Sumber File:</b> ${getFileName(item.source)}</div>  
     `  
 
     resultEl.appendChild(el)  
