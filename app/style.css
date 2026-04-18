@@ -57,10 +57,11 @@ HEADER
   color: rgba(255,255,255,0.85);
   text-align: center;
   margin-top: 3px;
+  margin-bottom: -6px;
 }
 
 .search-box{
-  margin-top: 3px;
+  margin-top: 0px;
 }
 
 /* =========================
@@ -74,7 +75,7 @@ SEARCH NORMAL (PERSIS UI TARGET)
   background:#ff2d2d; /* penting biar ga transparan */
   padding-bottom: 8px;
 
-  margin-top: 10px; /* 🔥 lebih rapat */
+  margin-top: 4px; /* 🔥 lebih rapat */
 }
 
 .search-box{
