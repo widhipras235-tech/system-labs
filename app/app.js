@@ -1072,17 +1072,21 @@ function handleScroll() {
   const current = window.scrollY
   const topHeight = headerTop.offsetHeight
 
-  //(ANIMASI LOGO)
+  // ✅ ANIMASI LOGO (WAJIB ADA DI ATAS)
   if (current > 20) {
     header.classList.add("scrolled")
   } else {
     header.classList.remove("scrolled")
   }
 
-  //  LOGIC LAMA
+  // ✅ HEADER BEHAVIOR
   if (current < 10) {
     header.style.transform = "translateY(0)"
-  } else {
+  } 
+  else if (current < 80) {
+    header.style.transform = "translateY(0)" // biar animasi kelihatan
+  } 
+  else {
     header.style.transform = `translateY(-${topHeight + 10}px)`
   }
 
