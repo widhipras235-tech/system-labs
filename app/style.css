@@ -41,17 +41,22 @@ HEADER
 
 /* LOGO */
 .logo {
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
+  font-weight: 800;
   font-size: 28px;
-  line-height: 1.1;
+  color: #fff;
+  text-align: center;
+  margin: 0;
 }
 
-.logo p{
-  margin: 2px 0 0; /* 🔥 nempel ke logo */
+.logo span {
+  color: #ffe082; /* aksen X */
+}
+
+.subtext {
   font-size: 13px;
-  line-height: 1.2;
-  opacity: 0.9;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  margin-top: 3px;
 }
 
 .search-box{
