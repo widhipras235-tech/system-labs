@@ -883,12 +883,13 @@ if (isReward) {
 
 const rewardBadge = isReward
   ? `<span style="
-      background: linear-gradient(45deg,#ffcc00,#ff8800);
+      display:inline-block;
+      background:linear-gradient(45deg,#ffcc00,#ff8800);
       color:#000;
-      padding:2px 6px;
-      border-radius:6px;
+      padding:4px 8px;
+      border-radius:8px;
       font-size:11px;
-      margin-left:6px;
+      margin-top:4px;
       font-weight:bold;
     ">
       🎁 +10% Matahari Reward
@@ -908,6 +909,8 @@ const rewardBadge = isReward
       <div style="display:flex;justify-content:space-between;align-items:start">
       <div>
   <b>${highlight(item.deskripsi, searchInput.value)}</b>
+  <div style="margin-top:4px">
+    ${rewardBadge}
   </div>
 </div>
         <div style="
@@ -922,7 +925,6 @@ const rewardBadge = isReward
         </div>
       </div>
 
-      <div>${rewardBadge}</div>
       <div>Brand: ${item.brand || "-"}</div>  
       <div>SKU: ${highlight(item.sku, searchInput.value)}</div>  
       <div>Article: ${highlight(item.article, searchInput.value)}</div>  
