@@ -903,51 +903,61 @@ const rewardBadge = isReward
     const statusColor = getStatusColor(status)
 
     const el = document.createElement("div")  
-    el.className = "card"  
+    el.className = "result-card"
 
-    el.innerHTML = `  
-      <div style="display:flex;justify-content:space-between;align-items:start">
-      <div>
-  <b>${highlight(item.deskripsi, searchInput.value)}</b>
-  <div style="margin-top:2px">
-    ${rewardBadge}</div></div>
-          <div style="
-          background:${statusColor};
-          color:white;
-          padding:4px 8px;
-          border-radius:6px;
-          font-size:12px;
-          font-weight:bold;
-        ">
-          ${status}
-        </div>
+const hargaNormal = !isNaN(item.harga_normal)
+  ? formatRupiah(item.harga_normal)
+  : item.harga_normal || "-"
+
+const hargaPromo = !isNaN(item.harga_promo)
+  ? formatRupiah(item.harga_promo)
+  : item.harga_promo || "-"
+
+el.innerHTML = `
+  <div class="card-header">
+    <div>
+      <div class="card-title">
+        ${highlight(item.deskripsi, searchInput.value)}
       </div>
-
-      <div>Brand: ${item.brand || "-"}</div>  
-      <div>SKU: ${highlight(item.sku, searchInput.value)}</div>  
-      <div>Article: ${highlight(item.article, searchInput.value)}</div>  
-
-      <div>Harga Normal: ${formatRupiah(item.harga_normal)}</div>  
-
-      <div style="color:red;font-weight:bold">  
-        Harga Promo: ${  
-          !isNaN(item.harga_promo)  
-            ? formatRupiah(item.harga_promo)  
-            : item.harga_promo || "-"  
-        }  
-      </div>  
-
-    <div style="color:green;font-weight:bold">  
-    Diskon: ${diskon}
+      <div class="card-sub">
+        ${highlight(item.article, searchInput.value)}
+      </div>
     </div>
 
-      <div>  
-        Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}  
-      </div>  
+    <div class="badge-status" style="background:${statusColor}">
+      ${status}
+    </div>
+  </div>
 
-      <div><b>🗒️Acara:</b> ${item.acara || item.raw?.acara || "-"}</div>  
-      <div><b>📑Sumber File:</b> ${getFileName(item.source)}</div>  
-    `  
+  ${isReward ? `<div class="badge-reward">🎁 +10% Matahari Reward</div>` : ""}
+
+  <div class="card-body">
+    <p>Brand: ${item.brand || "-"}</p>
+    <p>SKU: ${highlight(item.sku, searchInput.value)}</p>
+    <p>Article: ${highlight(item.article, searchInput.value)}</p>
+
+  <p class="harga-normal">
+  Harga Normal: ${hargaNormal}
+</p>
+
+<p class="harga-promo">
+  Harga Promo: ${hargaPromo}
+</p>
+
+    <p class="diskon">
+      Diskon: ${diskon}
+    </p>
+  </div>
+
+  <div class="card-divider"></div>
+
+  <div class="card-footer">
+    <p>📅 Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}</p>
+    <p>📄 Acara: ${item.acara || item.raw?.acara || "-"}</p>
+    <p>📁 Sumber File: ${getFileName(item.source)}</p>
+  </div>
+`
+
 
     resultEl.appendChild(el)  
   })  
