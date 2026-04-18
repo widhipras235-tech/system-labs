@@ -63,33 +63,6 @@ HEADER
   }
 }
 
-/* Smooth transition */
-.logo {
-  transition: all 0.3s ease;
-}
-
-/* Saat header aktif (scroll) */
-.header.scrolled .logo {
-  font-size: 22px; /* dari 28px → mengecil */
-}
-
-/* Subtext ikut mengecil & sedikit fade */
-.header.scrolled .subtext {
-  font-size: 11px;
-  opacity: 0.8;
-}
-
-/* animasi smooth */
-.header-top {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* saat scroll → sembunyikan logo */
-.header.hide .header-top {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
 .logo span {
   color: #ffe082;
   animation: glowX 1.5s infinite alternate;
