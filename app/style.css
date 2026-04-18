@@ -182,8 +182,15 @@ CARD NEW DESIGN (PRO LEVEL)
 }
 
 /* PRICE */
+.harga-normal{
+  color:#555;
+  font-size:14px;
+  font-weight:500;
+}
+
 .harga-promo{
   color:#d32f2f;
+  fon-size:16px;
   font-weight:700;
 }
 
