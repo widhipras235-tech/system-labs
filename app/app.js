@@ -908,8 +908,6 @@ const rewardBadge = isReward
       <div style="display:flex;justify-content:space-between;align-items:start">
       <div>
   <b>${highlight(item.deskripsi, searchInput.value)}</b>
-  <div style="margin-top:4px">
-    ${rewardBadge}
   </div>
 </div>
         <div style="
@@ -924,6 +922,7 @@ const rewardBadge = isReward
         </div>
       </div>
 
+      <div style="margin-top:4px">${rewardBadge}</div>
       <div>Brand: ${item.brand || "-"}</div>  
       <div>SKU: ${highlight(item.sku, searchInput.value)}</div>  
       <div>Article: ${highlight(item.article, searchInput.value)}</div>  
