@@ -40,10 +40,10 @@ HEADER
 }
 
 /* LOGO */
-.logo h1{
-  margin: 0;
-  font-size: 28px;
-  line-height: 1.1;
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 .logo p{
