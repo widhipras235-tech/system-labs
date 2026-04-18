@@ -1070,24 +1070,19 @@ let ticking = false
 
 function handleScroll() {
   const current = window.scrollY
-  const topHeight = headerTop.offsetHeight
 
-  // ✅ ANIMASI LOGO (WAJIB ADA DI ATAS)
+  // ✅ animasi logo kecil
   if (current > 20) {
     header.classList.add("scrolled")
   } else {
     header.classList.remove("scrolled")
   }
 
-  // ✅ HEADER BEHAVIOR
-  if (current < 10) {
-    header.style.transform = "translateY(0)"
-  } 
-  else if (current < 80) {
-    header.style.transform = "translateY(0)" // biar animasi kelihatan
-  } 
-  else {
-    header.style.transform = `translateY(-${topHeight + 10}px)`
+  // ✅ sembunyikan HANYA logo
+  if (current > 80) {
+    header.classList.add("hide")
+  } else {
+    header.classList.remove("hide")
   }
 
   ticking = false
