@@ -909,7 +909,7 @@ const rewardBadge = isReward
       <div style="display:flex;justify-content:space-between;align-items:start">
       <div>
   <b>${highlight(item.deskripsi, searchInput.value)}</b>
-  <div style="margin-top:4px">
+  <div style="margin-top:2px">
     ${rewardBadge}</div></div>
           <div style="
           background:${statusColor};
