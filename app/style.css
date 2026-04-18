@@ -46,10 +46,38 @@ HEADER
   color: #fff;
   text-align: center;
   margin: 0;
+
+  animation: logoFade 0.6s ease;
+}
+
+@keyframes logoFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .logo span {
-  color: #ffe082; /* aksen X */
+  color: #ffe082;
+  animation: glowX 1.5s infinite alternate;
+}
+
+@keyframes glowX {
+  from {
+    text-shadow: 0 0 2px #ffe082;
+  }
+  to {
+    text-shadow: 0 0 10px #ffe082;
+  }
+}
+
+.logo:active {
+  transform: scale(0.95);
+  transition: 0.1s;
 }
 
 .subtext {
