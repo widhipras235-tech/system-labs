@@ -325,16 +325,10 @@ HEADER COLLAPSE (SMOOTH SLIDE)
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.header-top {
-  height: 60px; /* 🔥 WAJIB */
+.header-top{
   overflow: hidden;
-
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.header.hide .header-top {
-  transform: translateY(-100%);
-  opacity: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 /* =========================
