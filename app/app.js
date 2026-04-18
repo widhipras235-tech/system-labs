@@ -1070,32 +1070,23 @@ let ticking = false
 
 function handleScroll() {
   const current = window.scrollY
+  const topHeight = headerTop.offsetHeight
 
-  // ✅ animasi logo kecil
-  if (current > 20) {
-    header.classList.add("scrolled")
-  } else {
-    header.classList.remove("scrolled")
-  }
-
-  // ✅ sembunyikan HANYA logo
-  if (current > 80) {
-    header.classList.add("hide")
-  } else {
-    header.classList.remove("hide")
+  // 🔥 HANYA di paling atas → full header
+  if (current < 10) {
+    header.style.transform = "translateY(0)"
+  } 
+  // selain itu → selalu collapse
+  else {
+    header.style.transform = `translateY(-${topHeight + 10}px)`
   }
 
   ticking = false
 }
 
 window.addEventListener("scroll", () => {
-  const header = document.getElementById("header")
-
-  if (!header) return
-
-  if (window.scrollY > 20) {
-    header.classList.add("scrolled")
-  } else {
-    header.classList.remove("scrolled")
+  if (!ticking) {
+    requestAnimationFrame(handleScroll)
+    ticking = true
   }
 })
