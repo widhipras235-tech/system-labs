@@ -2,481 +2,565 @@
   {
     "id": 1,
     "sku": "59217462",
-    "article": "MASDD006"
+    "article": "MASDD006",
+    "source": "ZES WOMEN"
   },
   {
     "id": 2,
     "sku": "59217471",
-    "article": "MASDD006"
+    "article": "MASDD006",
+    "source": "ZES WOMEN"
   },
   {
     "id": 3,
     "sku": "59217480",
-    "article": "MASDD006"
+    "article": "MASDD006",
+    "source": "ZES WOMEN"
   },
   {
     "id": 4,
     "sku": "59217499",
-    "article": "MASDD006"
+    "article": "MASDD006",
+    "source": "ZES WOMEN"
   },
   {
     "id": 5,
     "sku": "55681682",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 6,
     "sku": "55681691",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 7,
     "sku": "55681708",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 8,
     "sku": "55681717",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 9,
     "sku": "55681726",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 10,
     "sku": "55681735",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 11,
     "sku": "55681744",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 12,
     "sku": "55681753",
-    "article": "MELDD002"
+    "article": "MELDD002",
+    "source": "ZES WOMEN"
   },
   {
     "id": 13,
     "sku": "59217506",
-    "article": "MELDD003"
+    "article": "MELDD003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 14,
     "sku": "59217515",
-    "article": "MELDD003"
+    "article": "MELDD003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 15,
     "sku": "59217524",
-    "article": "MELDD003"
+    "article": "MELDD003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 16,
     "sku": "59217533",
-    "article": "MELDD003"
+    "article": "MELDD003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 17,
     "sku": "61178901",
-    "article": "MPRWB010"
+    "article": "MPRWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 18,
     "sku": "61178910",
-    "article": "MPRWB010"
+    "article": "MPRWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 19,
     "sku": "61178929",
-    "article": "MPRWB010"
+    "article": "MPRWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 20,
     "sku": "61178938",
-    "article": "MPRWB010"
+    "article": "MPRWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 21,
     "sku": "61178947",
-    "article": "MPRWB010"
+    "article": "MPRWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 22,
     "sku": "61178956",
-    "article": "MPRWB010"
+    "article": "MPRWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 23,
     "sku": "59217382",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 24,
     "sku": "59217391",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 25,
     "sku": "59217408",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 26,
     "sku": "59217417",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 27,
     "sku": "59217426",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 28,
     "sku": "59217435",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 29,
     "sku": "59217444",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 30,
     "sku": "59217453",
-    "article": "MASWB016"
+    "article": "MASWB016",
+    "source": "ZES WOMEN"
   },
   {
     "id": 31,
     "sku": "68039941",
-    "article": "MPRTP004"
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 32,
     "sku": "68039950",
-    "article": "MPRTP004"
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 33,
     "sku": "68039969",
-    "article": "MPRTP004"
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 34,
     "sku": "68039978",
-    "article": "MPRTP004"
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 35,
     "sku": "68039987",
-    "article": "MPRTP004"
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 36,
     "sku": "68039996",
-    "article": "MPRTP004"
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 37,
-    "sku": "68040000",
-    "article": "MPRTP004"
+    "sku": "68040019",
+    "article": "MPRTP004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 38,
-    "sku": "68040019",
-    "article": "MPRTP004"
+    "sku": "63150605",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 39,
-    "sku": "63150605",
-    "article": "MASWT008"
+    "sku": "63150614",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 40,
-    "sku": "63150614",
-    "article": "MASWT008"
+    "sku": "63150623",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 41,
-    "sku": "63150623",
-    "article": "MASWT008"
+    "sku": "63150632",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 42,
-    "sku": "63150632",
-    "article": "MASWT008"
+    "sku": "63150641",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 43,
-    "sku": "63150641",
-    "article": "MASWT008"
+    "sku": "63150650",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 44,
-    "sku": "63150650",
-    "article": "MASWT008"
+    "sku": "63150669",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 45,
-    "sku": "63150669",
-    "article": "MASWT008"
+    "sku": "63150678",
+    "article": "MASWT008",
+    "source": "ZES WOMEN"
   },
   {
     "id": 46,
-    "sku": "63150678",
-    "article": "MASWT008"
+    "sku": "54907323",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 47,
-    "sku": "54907323",
-    "article": "MELWB010"
+    "sku": "54907332",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 48,
-    "sku": "54907332",
-    "article": "MELWB010"
+    "sku": "54907341",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 49,
-    "sku": "54907341",
-    "article": "MELWB010"
+    "sku": "54907350",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 50,
-    "sku": "54907350",
-    "article": "MELWB010"
+    "sku": "54907369",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 51,
-    "sku": "54907369",
-    "article": "MELWB010"
+    "sku": "54907378",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 52,
-    "sku": "54907378",
-    "article": "MELWB010"
+    "sku": "54907387",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 53,
-    "sku": "54907387",
-    "article": "MELWB010"
+    "sku": "54907396",
+    "article": "MELWB010",
+    "source": "ZES WOMEN"
   },
   {
     "id": 54,
-    "sku": "54907396",
-    "article": "MELWB010"
+    "sku": "55526386",
+    "article": "NIFDD001",
+    "source": "ZES WOMEN"
   },
   {
     "id": 55,
-    "sku": "55526386",
-    "article": "NIFDD001"
+    "sku": "55526395",
+    "article": "NIFDD001",
+    "source": "ZES WOMEN"
   },
   {
     "id": 56,
-    "sku": "55526395",
-    "article": "NIFDD001"
+    "sku": "55526402",
+    "article": "NIFDD001",
+    "source": "ZES WOMEN"
   },
   {
     "id": 57,
-    "sku": "55526402",
-    "article": "NIFDD001"
+    "sku": "55086003",
+    "article": "MPRDD004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 58,
-    "sku": "55086003",
-    "article": "MPRDD004"
+    "sku": "55086012",
+    "article": "MPRDD004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 59,
-    "sku": "55086012",
-    "article": "MPRDD004"
+    "sku": "55086021",
+    "article": "MPRDD004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 60,
-    "sku": "55086021",
-    "article": "MPRDD004"
+    "sku": "55086030",
+    "article": "MPRDD004",
+    "source": "ZES WOMEN"
   },
   {
     "id": 61,
-    "sku": "55086030",
-    "article": "MPRDD004"
+    "sku": "68040028",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 62,
-    "sku": "68040028",
-    "article": "MASOW003"
+    "sku": "68040037",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 63,
-    "sku": "68040037",
-    "article": "MASOW003"
+    "sku": "68040046",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 64,
-    "sku": "68040046",
-    "article": "MASOW003"
+    "sku": "68040055",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 65,
-    "sku": "68040055",
-    "article": "MASOW003"
+    "sku": "68040064",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 66,
-    "sku": "68040064",
-    "article": "MASOW003"
+    "sku": "68040073",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 67,
-    "sku": "68040073",
-    "article": "MASOW003"
+    "sku": "68040082",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 68,
-    "sku": "68040082",
-    "article": "MASOW003"
+    "sku": "68040091",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 69,
-    "sku": "68040091",
-    "article": "MASOW003"
+    "sku": "68040108",
+    "article": "MASOW003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 70,
-    "sku": "68040108",
-    "article": "MASOW003"
+    "sku": "68039905",
+    "article": "AGLDT-01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 71,
-    "sku": "68039905",
-    "article": "AGLDT-01"
+    "sku": "68039914",
+    "article": "AGLDT-01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 72,
-    "sku": "68039914",
-    "article": "AGLDT-01"
+    "sku": "68039923",
+    "article": "AGLDT-01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 73,
-    "sku": "68039923",
-    "article": "AGLDT-01"
+    "sku": "68039932",
+    "article": "AGLDT-01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 74,
-    "sku": "68039932",
-    "article": "AGLDT-01"
+    "sku": "63101220",
+    "article": "AVRIL04",
+    "source": "ZES WOMEN"
   },
   {
     "id": 75,
-    "sku": "63101220",
-    "article": "AVRIL04"
+    "sku": "63101239",
+    "article": "AVRIL04",
+    "source": "ZES WOMEN"
   },
   {
     "id": 76,
-    "sku": "63101239",
-    "article": "AVRIL04"
+    "sku": "63101248",
+    "article": "AVRIL04",
+    "source": "ZES WOMEN"
   },
   {
     "id": 77,
-    "sku": "63101248",
-    "article": "AVRIL04"
+    "sku": "63101257",
+    "article": "AVRIL03",
+    "source": "ZES WOMEN"
   },
   {
     "id": 78,
-    "sku": "63101257",
-    "article": "AVRIL03"
+    "sku": "63101266",
+    "article": "AVRIL03",
+    "source": "ZES WOMEN"
   },
   {
     "id": 79,
-    "sku": "63101266",
-    "article": "AVRIL03"
+    "sku": "63101275",
+    "article": "AVRIL03",
+    "source": "ZES WOMEN"
   },
   {
     "id": 80,
-    "sku": "63101275",
-    "article": "AVRIL03"
+    "sku": "63101284",
+    "article": "AVRIL02",
+    "source": "ZES WOMEN"
   },
   {
     "id": 81,
-    "sku": "63101284",
-    "article": "AVRIL02"
+    "sku": "63101293",
+    "article": "AVRIL02",
+    "source": "ZES WOMEN"
   },
   {
     "id": 82,
-    "sku": "63101293",
-    "article": "AVRIL02"
+    "sku": "63101319",
+    "article": "AVRIL02",
+    "source": "ZES WOMEN"
   },
   {
     "id": 83,
-    "sku": "63101300",
-    "article": "AVRIL02"
+    "sku": "63101328",
+    "article": "AVRIL02",
+    "source": "ZES WOMEN"
   },
   {
     "id": 84,
-    "sku": "63101319",
-    "article": "AVRIL02"
+    "sku": "63101337",
+    "article": "AVRIL02",
+    "source": "ZES WOMEN"
   },
   {
     "id": 85,
-    "sku": "63101328",
-    "article": "AVRIL02"
+    "sku": "63150687",
+    "article": "AVRIL01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 86,
-    "sku": "63101337",
-    "article": "AVRIL02"
+    "sku": "63150696",
+    "article": "AVRIL01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 87,
-    "sku": "63150687",
-    "article": "AVRIL01"
+    "sku": "63150703",
+    "article": "AVRIL01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 88,
-    "sku": "63150696",
-    "article": "AVRIL01"
+    "sku": "63150712",
+    "article": "AVRIL01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 89,
-    "sku": "63150703",
-    "article": "AVRIL01"
+    "sku": "63150721",
+    "article": "AVRIL01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 90,
-    "sku": "63150712",
-    "article": "AVRIL01"
+    "sku": "63150730",
+    "article": "AVRIL01",
+    "source": "ZES WOMEN"
   },
   {
     "id": 91,
-    "sku": "63150721",
-    "article": "AVRIL01"
+    "sku": "55681762",
+    "article": "BLDR003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 92,
-    "sku": "63150730",
-    "article": "AVRIL01"
+    "sku": "55681771",
+    "article": "BLDR003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 93,
-    "sku": "55681762",
-    "article": "BLDR003"
+    "sku": "55681780",
+    "article": "BLDR003",
+    "source": "ZES WOMEN"
   },
   {
     "id": 94,
-    "sku": "55681771",
-    "article": "BLDR003"
-  },
-  {
-    "id": 95,
-    "sku": "55681780",
-    "article": "BLDR003"
-  },
-  {
-    "id": 96,
     "sku": "55681799",
-    "article": "BLDR003"
+    "article": "BLDR003",
+    "source": "ZES WOMEN"
   }
 ]
