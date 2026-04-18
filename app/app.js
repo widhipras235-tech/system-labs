@@ -535,6 +535,32 @@ async function loadIndex() {
 }  
 loadIndex()  
 
+let rewardMap = {}
+
+async function loadRewardMap() {
+  try {
+    const res = await fetch("./db/sku10_map.json")
+    if (res.ok) {
+      rewardMap = await res.json()
+      console.log("🎁 Reward map loaded:", Object.keys(rewardMap).length)
+    }
+  } catch (e) {
+    console.log("❌ Gagal load reward map", e)
+  }
+}
+
+loadRewardMap()
+
+function isRewardItem(item) {
+  const sku = normalize(item.sku)
+  const article = normalize(item.article)
+
+  return (
+    rewardMap[sku] ||
+    rewardMap[article]
+  )
+}
+
 
 let DB = []
 
@@ -838,7 +864,36 @@ function render(data) {
   }  
 
   data.forEach(item => {  
-    const diskon = formatDiskon(item.diskon || item.raw?.diskon)  
+    let diskonValue = item.diskon || item.raw?.diskon
+
+if (
+  item.harga_promo &&
+  item.harga_promo.toString().toUpperCase().includes("SHARP")
+) {
+  diskonValue = "-"
+}
+
+const diskon = formatDiskon(diskonValue)
+
+const isReward = isRewardItem(item)
+
+if (isReward) {
+  console.log("🎁 REWARD MATCH:", item.sku, item.article)
+}
+
+const rewardBadge = isReward
+  ? `<span style="
+      background: linear-gradient(45deg,#ffcc00,#ff8800);
+      color:#000;
+      padding:2px 6px;
+      border-radius:6px;
+      font-size:11px;
+      margin-left:6px;
+      font-weight:bold;
+    ">
+      🎁 +10% Matahari Reward
+    </span>`
+  : ""
 
     const mulai = item.fromdate || item.raw?.fromdate || "-"  
     const akhir = item.todate || item.raw?.todate || "-"  
@@ -878,9 +933,9 @@ function render(data) {
         }  
       </div>  
 
-      <div style="color:green;font-weight:bold">  
-        Diskon: ${diskon}  
-      </div>  
+    <div style="color:green;font-weight:bold">  
+    Diskon: ${diskon} ${rewardBadge}
+    </div>
 
       <div>  
         Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}  
