@@ -1072,21 +1072,19 @@ function handleScroll() {
   const current = window.scrollY
   const topHeight = headerTop.offsetHeight
 
-  // 🔥 HANYA di paling atas → full header
+  //(ANIMASI LOGO)
+  if (current > 20) {
+    header.classList.add("scrolled")
+  } else {
+    header.classList.remove("scrolled")
+  }
+
+  //  LOGIC LAMA
   if (current < 10) {
     header.style.transform = "translateY(0)"
-  } 
-  // selain itu → selalu collapse
-  else {
+  } else {
     header.style.transform = `translateY(-${topHeight + 10}px)`
   }
 
   ticking = false
 }
-
-window.addEventListener("scroll", () => {
-  if (!ticking) {
-    requestAnimationFrame(handleScroll)
-    ticking = true
-  }
-})
