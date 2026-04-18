@@ -922,7 +922,7 @@ const rewardBadge = isReward
         </div>
       </div>
 
-      <div style="margin-top:4px">${rewardBadge}</div>
+      <div>${rewardBadge}</div>
       <div>Brand: ${item.brand || "-"}</div>  
       <div>SKU: ${highlight(item.sku, searchInput.value)}</div>  
       <div>Article: ${highlight(item.article, searchInput.value)}</div>  
