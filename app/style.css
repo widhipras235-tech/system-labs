@@ -57,7 +57,7 @@ HEADER
   color: rgba(255,255,255,0.85);
   text-align: center;
   margin-top: 3px;
-  margin-bottom: -6px;
+  margin-bottom: 0px;
 }
 
 .search-box{
