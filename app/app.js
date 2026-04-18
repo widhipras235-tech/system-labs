@@ -919,9 +919,6 @@ el.innerHTML = `
       <div class="card-title">
         ${highlight(item.deskripsi, searchInput.value)}
       </div>
-      <div class="card-sub">
-        ${highlight(item.article, searchInput.value)}
-      </div>
     </div>
 
     <div class="badge-status" style="background:${statusColor}">
