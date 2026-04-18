@@ -116,93 +116,73 @@ main{
 }
 
 /* =========================
-CARD BESAR (MOBILE FRIENDLY)
+CARD (IMPROVED SIZE)
 ========================= */
 .result-card{
   background:#fff;
-  border-radius:18px;
-  padding:18px;
-  margin:14px 10px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.10);
+  border-radius:16px;
+  padding:16px;
+  margin:12px 10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* =========================
-HEADER
-========================= */
+/* TITLE */
 .card-title{
-  font-size:19px; /* BESAR */
+  font-size:17px; /* sebelumnya 15 */
   font-weight:700;
   color:#222;
-  line-height:1.4;
+  line-height:1.35;
 }
 
+/* SUB TEXT */
 .card-sub{
-  font-size:14px;
+  font-size:13px; /* sebelumnya 12 */
   color:#666;
-  margin-top:5px;
+  margin-top:4px;
 }
 
-/* =========================
-STATUS BADGE
-========================= */
+/* STATUS */
 .badge-status{
-  font-size:13px;
-  padding:6px 12px;
-  border-radius:999px;
+  font-size:12px; /* sebelumnya 11 */
+  padding:5px 11px;
 }
 
-/* =========================
-REWARD BADGE
-========================= */
+/* REWARD */
 .badge-reward{
-  font-size:13px;
-  padding:7px 12px;
-  margin-top:12px;
+  font-size:12px;
+  padding:6px 11px;
+  margin-top:10px;
 }
 
-/* =========================
-BODY TEXT
-========================= */
+/* BODY */
 .card-body{
-  margin-top:14px;
-  font-size:15px; /* BESAR */
-  line-height:1.7;
+  margin-top:12px;
+  font-size:14px; /* sebelumnya 13 */
+  line-height:1.6;
 }
 
-.card-body p{
-  margin:4px 0;
-}
-
-/* =========================
-HARGA
-========================= */
+/* HARGA */
 .harga-normal{
-  font-size:14px;
+  font-size:13px;
   color:#666;
 }
 
 .harga-promo{
-  font-size:18px; /* FOKUS UTAMA */
+  font-size:16px; /* biar lebih standout */
   font-weight:700;
   color:#d32f2f;
-  margin-top:2px;
 }
 
-/* =========================
-DIVIDER
-========================= */
-.card-divider{
-  margin:14px 0;
-}
-
-/* =========================
-FOOTER
-========================= */
+/* FOOTER */
 .card-footer{
-  font-size:14px;
-  line-height:1.7;
+  font-size:13px;
+  line-height:1.6;
 }
 
+/* DIVIDER */
+.card-divider{
+  margin:12px 0;
+}
 .result-card:active{
   transform:scale(0.98);
   transition:0.1s;
