@@ -906,7 +906,12 @@ const rewardBadge = isReward
 
     el.innerHTML = `  
       <div style="display:flex;justify-content:space-between;align-items:start">
-        <div><b>${highlight(item.deskripsi, searchInput.value)}</b></div>
+      <div>
+  <b>${highlight(item.deskripsi, searchInput.value)}</b>
+  <div style="margin-top:4px">
+    ${rewardBadge}
+  </div>
+</div>
         <div style="
           background:${statusColor};
           color:white;
@@ -934,7 +939,7 @@ const rewardBadge = isReward
       </div>  
 
     <div style="color:green;font-weight:bold">  
-    Diskon: ${diskon} ${rewardBadge}
+    Diskon: ${diskon}
     </div>
 
       <div>  
