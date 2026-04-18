@@ -28,7 +28,9 @@ HEADER
   border-bottom-right-radius:20px;
 
   backdrop-filter: blur(10px);
+
   transition: all 0.3s ease;
+  will-change: transform;
 }
 
 .header{
@@ -75,6 +77,17 @@ HEADER
 .header.scrolled .subtext {
   font-size: 11px;
   opacity: 0.8;
+}
+
+/* animasi smooth */
+.header-top {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* saat scroll → sembunyikan logo */
+.header.hide .header-top {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .logo span {
@@ -241,7 +254,7 @@ CARD NEW DESIGN (PRO LEVEL)
 
 .harga-promo{
   color:#d32f2f;
-  fon-size:16px;
+  font-size:16px;
   font-weight:700;
 }
 
@@ -339,10 +352,17 @@ HEADER COLLAPSE (SMOOTH SLIDE)
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.header-top{
+.header-top {
   overflow: hidden;
   margin-bottom: 0;
   padding-bottom: 0;
+
+  height: 60px;
+}
+
+.header.hide .header-top {
+  transform: translateY(-120%);
+  opacity: 0;
 }
 
 /* =========================
