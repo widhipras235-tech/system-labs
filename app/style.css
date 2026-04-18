@@ -75,7 +75,7 @@ SEARCH NORMAL (PERSIS UI TARGET)
   background:#ff2d2d; /* penting biar ga transparan */
   padding-bottom: 8px;
 
-  margin-top: 4px; /* 🔥 lebih rapat */
+  margin-top: 0px; /* 🔥 lebih rapat */
 }
 
 .search-box{
