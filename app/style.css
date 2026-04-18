@@ -353,15 +353,14 @@ HEADER COLLAPSE (SMOOTH SLIDE)
 }
 
 .header-top {
+  height: 60px; /* 🔥 WAJIB */
   overflow: hidden;
-  margin-bottom: 0;
-  padding-bottom: 0;
 
-  height: 60px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .header.hide .header-top {
-  transform: translateY(-120%);
+  transform: translateY(-100%);
   opacity: 0;
 }
 
