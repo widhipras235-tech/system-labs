@@ -1072,7 +1072,7 @@ searchInput.addEventListener("input", e => {
     
     renderPage()    
     
-    statusEl.innerText = `Ditemukan ${result.length} data`      
+    statusEl.innerText = `Ditemukan ${currentResults.length} data`      
   }, 200)      
 })    
     
