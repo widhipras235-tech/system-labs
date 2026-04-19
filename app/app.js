@@ -864,12 +864,15 @@ async function loadMoreDataIfNeeded() {
   if (currentResults.length >= HARD_LIMIT) return
 
   const more = await searchData(
-  currentKeyword,
-  SOFT_LIMIT,
-  currentResults.length
-)
+    currentKeyword,
+    SOFT_LIMIT,
+    currentResults.length
+  )
 
-currentResults = currentResults.concat(more)
+  if (!more || more.length === 0) return // 🔥 penting
+
+  currentResults = currentResults.concat(more)
+}
 
 /* =========================  
 RENDER  
