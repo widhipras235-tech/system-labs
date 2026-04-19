@@ -9,13 +9,13 @@ let lastScanSound = 0
 let audioCtx = null
 let currentResults = []
 let currentPage = 1
-const PER_PAGE = 10
+const PER_PAGE = 8
 
 let isLoadingMore = false
 let observer = null
 let currentKeyword = ""
 
-const SOFT_LIMIT = 100
+const SOFT_LIMIT = 50
 const HARD_LIMIT = 300
 const TOTAL_FILE = 100  
 
@@ -815,12 +815,14 @@ async function searchData(keyword, limit = SOFT_LIMIT, offset = 0) {
 
   // ✅ EXACT MATCH DULU
   if (skuIndex[keyword]) {
-    return await getExactResults(skuIndex[keyword], keyword)
-  }
+  const results = await getExactResults(skuIndex[keyword], keyword)
+  return results.slice(offset, offset + limit)
+}
 
   if (articleIndex[keyword]) {
-    return await getExactResults(articleIndex[keyword], keyword)
-  }
+  const results = await getExactResults(articleIndex[keyword], keyword)
+  return results.slice(offset, offset + limit)
+}
 
   let indexes = new Set()  
   let prefix = keyword.slice(0, 3)  
