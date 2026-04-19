@@ -962,9 +962,10 @@ function renderPage() {
   const visibleData = currentResults.slice(0, end)
 
   if (visibleData.length === 0) {
-    resultEl.innerHTML = "<p>Data tidak ditemukan</p>"
-    return
-  }
+  resultEl.innerHTML = "<p>Data tidak ditemukan</p>"
+  createObserver() // 🔥 penting
+  return
+}
 
   visibleData.forEach(item => {
     const el = createCard(item)
@@ -986,7 +987,7 @@ function createObserver() {
 
   const sentinel = document.createElement("div")
   sentinel.id = "sentinel"
-  sentinel.style.height = "20px"
+  sentinel.style.height = "100px"
 
   resultEl.appendChild(sentinel)
 
@@ -999,7 +1000,9 @@ function createObserver() {
 
   await loadMoreDataIfNeeded()
 
-  currentPage++
+totalFound = currentResults.length // 🔥 update total realtime
+
+currentPage++
 
   setTimeout(() => {
     renderPage()
@@ -1064,20 +1067,20 @@ searchInput.addEventListener("input", e => {
 
     statusEl.innerText = "Mencari..."  
 
-    const result = await searchData(keyword)
-
-// 🔥 ambil total sebenarnya
-const allResults = await searchData(keyword, Infinity, 0)
-totalFound = allResults.length
-
-console.log("TOTAL:", totalFound) // ✅ di sini
+    const result = await searchData(keyword, SOFT_LIMIT, 0)
 
 currentResults = result
 currentPage = 1
 
-    renderPage()
+// 🔥 total langsung dari hasil awal
+totalFound = result.length
 
-    statusEl.innerText = `Ditemukan ${totalFound} data`  
+console.log("TOTAL:", totalFound)
+console.log("LOADED:", currentResults.length)
+
+renderPage()
+
+statusEl.innerText = `Ditemukan ${totalFound}${result.length >= SOFT_LIMIT ? "+" : ""} data`  
   }, 200)  
 })
 
