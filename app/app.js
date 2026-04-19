@@ -863,8 +863,16 @@ return results.slice(offset, offset + limit)
 return results.slice(offset, offset + limit)
 }
 
+/* =========================  
+LOAD MORE DATA  
+========================= */  
 async function loadMoreDataIfNeeded() {
-  if (currentResults.length >= totalFound) return
+
+  // 🔥 PATCH GUARD
+  if (isLoading) return
+  if (currentResults.length % SOFT_LIMIT !== 0) return
+
+  isLoading = true
 
   const more = await searchData(
     currentKeyword,
@@ -872,13 +880,18 @@ async function loadMoreDataIfNeeded() {
     currentResults.length
   )
 
-  if (!more || more.length === 0) return
+  if (!more || more.length === 0) {
+    isLoading = false
+    return
+  }
 
+  // 🔥 WAJIB concat
   currentResults = currentResults.concat(more)
-console.log("=== LOAD MORE ===")
-console.log("TOTAL:", totalFound)
-console.log("CURRENT:", currentResults.length)
-console.log("PAGE:", currentPage)
+
+  console.log("=== LOAD MORE ===")
+  console.log("CURRENT:", currentResults.length)
+
+  isLoading = false
 }
 
 /* =========================  
@@ -966,57 +979,44 @@ function renderPage() {
   const visibleData = currentResults.slice(0, end)
 
   if (visibleData.length === 0) {
-  resultEl.innerHTML = "<p>Data tidak ditemukan</p>"
-  createObserver() // 🔥 penting
-  return
-}
+    resultEl.innerHTML = "<p>Data tidak ditemukan</p>"
+    return
+  }
 
   visibleData.forEach(item => {
     const el = createCard(item)
     resultEl.appendChild(el)
   })
 
-if (currentResults.length > currentPage * PER_PAGE) {
-  createObserver()
+  // 🔥 PATCH: hanya aktif kalau masih ada data
+  if (currentResults.length > currentPage * PER_PAGE) {
+    createObserver()
+  }
 }
 
+
+/* =========================  
+OBSERVER  
+========================= */  
 function createObserver() {
-  // hapus observer lama
-  if (observer) observer.disconnect()
-
-  // hapus sentinel lama
-  const old = document.getElementById("sentinel")
-  if (old) old.remove()
-
-  if (!currentKeyword) return
+  if (observer) observer.disconnect() // 🔥 PATCH WAJIB
 
   const sentinel = document.createElement("div")
-  sentinel.id = "sentinel"
-  sentinel.style.height = "100px"
-
+  sentinel.className = "sentinel"
   resultEl.appendChild(sentinel)
 
   observer = new IntersectionObserver(async entries => {
-  if (!entries[0].isIntersecting || isLoadingMore) return
+    if (entries[0].isIntersecting) {
+      console.log("👀 OBSERVER TRIGGER")
 
-  isLoadingMore = true
+      observer.disconnect()
 
-  showLoadingSkeleton()
+      await loadMoreDataIfNeeded()
 
-  await loadMoreDataIfNeeded()
-
-totalFound = currentResults.length // 🔥 update total realtime
-
-currentPage++
-
-  setTimeout(() => {
-    renderPage()
-    isLoadingMore = false
-  }, 200)
-
-}, {
-  rootMargin: "100px"
-})
+      currentPage++
+      renderPage()
+    }
+  })
 
   observer.observe(sentinel)
 }
@@ -1048,45 +1048,45 @@ function renderLoadMore() {
   resultEl.appendChild(btn)
 }
 
-/* =========================  
-EVENT  
-========================= */  
-let timer  
+let timer
+searchInput.addEventListener("input", e => {
+  clearTimeout(timer)
 
-searchInput.addEventListener("input", e => {  
-  clearTimeout(timer)  
+  const keyword = e.target.value.trim()
 
-  const keyword = e.target.value  
+  // 🔥 PATCH WAJIB
   currentKeyword = keyword
 
-  if (!isReady) {  
-    statusEl.innerText = "Loading..."  
-    return  
-  }  
+  timer = setTimeout(async () => {
 
-  timer = setTimeout(async () => {  
-    if (!keyword.trim()) {  
-      resultEl.innerHTML = ""  
-      statusEl.innerText = "Ketik untuk mencari"  
-      return  
-    }  
+    if (!isReady) {
+      statusEl.innerText = "Loading..."
+      return
+    }
 
-    statusEl.innerText = "Mencari..."  
+    if (!keyword) {
+      resultEl.innerHTML = ""
+      statusEl.innerText = ""
+      return
+    }
 
-    const allResults = await searchData(keyword, HARD_LIMIT, 0)
+    statusEl.innerText = "Mencari..."
 
-totalFound = allResults.length
+    currentPage = 1
 
-currentResults = allResults.slice(0, SOFT_LIMIT)
-currentPage = 1
+    // 🔥 ambil data awal
+    const result = await searchData(keyword, SOFT_LIMIT, 0)
 
-console.log("TOTAL:", totalFound)
-console.log("LOADED:", currentResults.length)
+    currentResults = result
 
-renderPage()
+    console.log("=== INITIAL LOAD ===")
+    console.log("CURRENT:", currentResults.length)
 
-statusEl.innerText = `Ditemukan ${totalFound}${result.length >= SOFT_LIMIT ? "+" : ""} data`  
-  }, 200)  
+    renderPage()
+
+    statusEl.innerText = `${currentResults.length} hasil`
+
+  }, 300)
 })
 
 /* =========================  
