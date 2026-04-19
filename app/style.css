@@ -270,6 +270,23 @@ CARD NEW DESIGN (PRO LEVEL)
   margin:3px 0;
 }
 
+/* button selanjutnya */
+.btn-load-more {
+  width: 100%;
+  padding: 12px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 10px;
+  background: #1a73e8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-load-more:hover {
+  background: #1669c1;
+}
+
 /* =========================
 HIGHLIGHT (MARK)
 ========================= */
