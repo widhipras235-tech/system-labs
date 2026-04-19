@@ -17,7 +17,7 @@ let currentKeyword = ""
 let totalFound = 0
 
 const SOFT_LIMIT = 50
-const HARD_LIMIT = 300
+const HARD_LIMIT = 2000
 const TOTAL_FILE = 100  
 
 /* =========================  
@@ -864,17 +864,17 @@ return results.slice(offset, offset + limit)
 }
 
 async function loadMoreDataIfNeeded() {
-  if (currentResults.length >= HARD_LIMIT) return
-
   const more = await searchData(
     currentKeyword,
     SOFT_LIMIT,
     currentResults.length
   )
 
-  if (!more || more.length === 0) return // 🔥 penting
+  if (!more || more.length === 0) return
 
   currentResults = currentResults.concat(more)
+
+  console.log("LOADED:", currentResults.length) // ✅ di sini
 }
 
 /* =========================  
@@ -982,8 +982,7 @@ function createObserver() {
   const old = document.getElementById("sentinel")
   if (old) old.remove()
 
-  // kalau data habis → stop
-  if (currentResults.length <= currentPage * PER_PAGE) return
+  if (!currentKeyword) return
 
   const sentinel = document.createElement("div")
   sentinel.id = "sentinel"
@@ -1069,8 +1068,9 @@ searchInput.addEventListener("input", e => {
 
 // 🔥 ambil total sebenarnya
 const allResults = await searchData(keyword, Infinity, 0)
-
 totalFound = allResults.length
+
+console.log("TOTAL:", totalFound) // ✅ di sini
 
 currentResults = result
 currentPage = 1
