@@ -859,7 +859,10 @@ return results.slice(offset, offset + limit)
   
   // ✅ FALLBACK KE FULL SCAN  
   const results = await fullScanSearch(keyword)  
-return results.slice(offset, offset + limit)  
+return {
+  total: results.length,
+  data: results.slice(offset, offset + limit)
+} 
 }  
   
 async function loadMoreDataIfNeeded() {  
@@ -1064,15 +1067,15 @@ searchInput.addEventListener("input", e => {
   
     statusEl.innerText = "Mencari..."    
   
-    const result = await searchData(keyword)  
+    const res = await searchData(keyword) 
   
-    currentKeyword = keyword  
-    currentResults = result  
-    currentPage = 1  
-  
-    renderPage()  
-  
-    statusEl.innerText = `Ditemukan ${result.length} data`    
+    currentKeyword = keyword
+currentResults = res.data
+currentPage = 1
+
+renderPage()
+
+statusEl.innerText = `Ditemukan ${res.total} data`   
   }, 200)    
 })  
   
