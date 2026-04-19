@@ -14,6 +14,7 @@ const PER_PAGE = 8
 let isLoadingMore = false
 let observer = null
 let currentKeyword = ""
+let totalFound = 0
 
 const SOFT_LIMIT = 50
 const HARD_LIMIT = 300
@@ -1066,13 +1067,17 @@ searchInput.addEventListener("input", e => {
 
     const result = await searchData(keyword)
 
-    currentKeyword = keyword
-    currentResults = result
-    currentPage = 1
+// 🔥 ambil total sebenarnya
+const allResults = await searchData(keyword, Infinity, 0)
+
+totalFound = allResults.length
+
+currentResults = result
+currentPage = 1
 
     renderPage()
 
-    statusEl.innerText = `Ditemukan ${result.length} data`  
+    statusEl.innerText = `Ditemukan ${totalFound} data`  
   }, 200)  
 })
 
