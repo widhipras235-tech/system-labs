@@ -13,8 +13,10 @@ const PER_PAGE = 10
 
 let isLoadingMore = false
 let observer = null
+let currentKeyword = ""
 
-const MAX_RESULT = 100
+const SOFT_LIMIT = 100
+const HARD_LIMIT = 300
 const TOTAL_FILE = 100  
 
 /* =========================  
@@ -703,7 +705,7 @@ async function getExactResults(indexList, keyword) {
       })  
     }  
 
-    if (results.length >= MAX_RESULT) break  
+    if (results.length >= HARD_LIMIT) break
   }  
 
   return finalSort(results, keyword)
@@ -742,11 +744,11 @@ async function getResultsFromIndexes(indexes, keyword) {
         _statusPriority: getStatusPriority(status)
       })  
 
-      if (results.length >= MAX_RESULT) break  
+      if (results.length >= HARD_LIMIT) break
     }  
   }  
 
-  return finalSort(results, keyword).slice(0, MAX_RESULT)
+  return finalSort(results, keyword).slice(0, HARD_LIMIT)
 }  
 
 /* =========================  
@@ -786,21 +788,21 @@ async function fullScanSearch(keyword) {
         })  
       }
 
-      if (results.length >= MAX_RESULT) break  
+      if (results.length >= HARD_LIMIT) break
     }
 
-    if (results.length >= MAX_RESULT) break  
+    if (results.length >= HARD_LIMIT) break
 
     i++
   }
 
-  return finalSort(results, keyword).slice(0, MAX_RESULT)
+  return finalSort(results, keyword).slice(0, HARD_LIMIT)
 }
 
 /* =========================  
 SEARCH ENGINE  
 ========================= */  
-async function searchData(keyword) {  
+async function searchData(keyword, limit = SOFT_LIMIT, offset = 0) {  
   let keywords = keyword
     .toLowerCase()
     .split(" ")
@@ -829,11 +831,9 @@ async function searchData(keyword) {
 
     if (key.startsWith(keyword)) {  
       skuIndex[key].forEach(i => {  
-        if (indexes.size < MAX_RESULT) indexes.add(i)  
+       if (indexes.size < HARD_LIMIT) indexes.add(i)  
       })  
-    }  
-
-    if (indexes.size >= MAX_RESULT) break  
+    }  
   }  
 
   // ✅ CARI DARI ARTICLE INDEX (SUDAH DI POSISI BENAR)
@@ -842,21 +842,34 @@ async function searchData(keyword) {
 
     if (key.startsWith(keyword)) {  
       articleIndex[key].forEach(i => {  
-        if (indexes.size < MAX_RESULT) indexes.add(i)  
+        if (indexes.size < HARD_LIMIT) indexes.add(i)  
       })  
     }  
 
-    if (indexes.size >= MAX_RESULT) break  
+   if (indexes.size >= HARD_LIMIT) break  
   }
 
   // ✅ JIKA ADA HASIL DARI INDEX
   if (indexes.size > 0) {
-    return await getResultsFromIndexes(indexes, keyword)
+    const results = await getResultsFromIndexes(indexes, keyword)
+return results.slice(offset, offset + limit)
   }
 
   // ✅ FALLBACK KE FULL SCAN
-  return await fullScanSearch(keyword)
+  const results = await fullScanSearch(keyword)
+return results.slice(offset, offset + limit)
 }
+
+async function loadMoreDataIfNeeded() {
+  if (currentResults.length >= HARD_LIMIT) return
+
+  const more = await searchData(
+  currentKeyword,
+  SOFT_LIMIT,
+  currentResults.length
+)
+
+currentResults = currentResults.concat(more)
 
 /* =========================  
 RENDER  
@@ -972,19 +985,25 @@ function createObserver() {
 
   resultEl.appendChild(sentinel)
 
-  observer = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting && !isLoadingMore) {
-      isLoadingMore = true
+  observer = new IntersectionObserver(async entries => {
+  if (!entries[0].isIntersecting || isLoadingMore) return
 
-      currentPage++
+  isLoadingMore = true
 
-      // delay kecil biar smooth
-      setTimeout(() => {
-        renderPage()
-        isLoadingMore = false
-      }, 200)
-    }
-  })
+  showLoadingSkeleton()
+
+  await loadMoreDataIfNeeded()
+
+  currentPage++
+
+  setTimeout(() => {
+    renderPage()
+    isLoadingMore = false
+  }, 200)
+
+}, {
+  rootMargin: "100px"
+})
 
   observer.observe(sentinel)
 }
@@ -1042,6 +1061,7 @@ searchInput.addEventListener("input", e => {
 
     const result = await searchData(keyword)
 
+    currentKeyword = keyword
     currentResults = result
     currentPage = 1
 
