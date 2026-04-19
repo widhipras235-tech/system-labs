@@ -11,6 +11,9 @@ let currentResults = []
 let currentPage = 1
 const PER_PAGE = 10
 
+let isLoadingMore = false
+let observer = null
+
 const MAX_RESULT = 100
 const TOTAL_FILE = 100  
 
@@ -949,7 +952,49 @@ function renderPage() {
     resultEl.appendChild(el)
   })
 
-  renderLoadMore()
+  createObserver()
+}
+
+function createObserver() {
+  // hapus observer lama
+  if (observer) observer.disconnect()
+
+  // hapus sentinel lama
+  const old = document.getElementById("sentinel")
+  if (old) old.remove()
+
+  // kalau data habis → stop
+  if (currentResults.length <= currentPage * PER_PAGE) return
+
+  const sentinel = document.createElement("div")
+  sentinel.id = "sentinel"
+  sentinel.style.height = "20px"
+
+  resultEl.appendChild(sentinel)
+
+  observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !isLoadingMore) {
+      isLoadingMore = true
+
+      currentPage++
+
+      // delay kecil biar smooth
+      setTimeout(() => {
+        renderPage()
+        isLoadingMore = false
+      }, 200)
+    }
+  })
+
+  observer.observe(sentinel)
+}
+
+function showLoadingSkeleton() {
+  for (let i = 0; i < 3; i++) {
+    const el = document.createElement("div")
+    el.className = "skeleton"
+    resultEl.appendChild(el)
+  }
 }
 
 function renderLoadMore() {
@@ -997,14 +1042,14 @@ searchInput.addEventListener("input", e => {
 
     const result = await searchData(keyword)
 
-currentResults = result
-currentPage = 1
+    currentResults = result
+    currentPage = 1
 
-renderPage()
+    renderPage()
 
     statusEl.innerText = `Ditemukan ${result.length} data`  
   }, 200)  
-})  
+})
 
 /* =========================  
 AUTO UPDATE  
