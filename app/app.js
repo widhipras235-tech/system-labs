@@ -864,6 +864,8 @@ return results.slice(offset, offset + limit)
 }
 
 async function loadMoreDataIfNeeded() {
+  if (currentResults.length >= totalFound) return
+
   const more = await searchData(
     currentKeyword,
     SOFT_LIMIT,
@@ -873,8 +875,10 @@ async function loadMoreDataIfNeeded() {
   if (!more || more.length === 0) return
 
   currentResults = currentResults.concat(more)
-
-  console.log("LOADED:", currentResults.length) // ✅ di sini
+console.log("=== LOAD MORE ===")
+console.log("TOTAL:", totalFound)
+console.log("CURRENT:", currentResults.length)
+console.log("PAGE:", currentPage)
 }
 
 /* =========================  
@@ -972,6 +976,7 @@ function renderPage() {
     resultEl.appendChild(el)
   })
 
+if (currentResults.length > currentPage * PER_PAGE) {
   createObserver()
 }
 
@@ -1052,6 +1057,7 @@ searchInput.addEventListener("input", e => {
   clearTimeout(timer)  
 
   const keyword = e.target.value  
+  currentKeyword = keyword
 
   if (!isReady) {  
     statusEl.innerText = "Loading..."  
@@ -1067,13 +1073,12 @@ searchInput.addEventListener("input", e => {
 
     statusEl.innerText = "Mencari..."  
 
-    const result = await searchData(keyword, SOFT_LIMIT, 0)
+    const allResults = await searchData(keyword, HARD_LIMIT, 0)
 
-currentResults = result
+totalFound = allResults.length
+
+currentResults = allResults.slice(0, SOFT_LIMIT)
 currentPage = 1
-
-// 🔥 total langsung dari hasil awal
-totalFound = result.length
 
 console.log("TOTAL:", totalFound)
 console.log("LOADED:", currentResults.length)
