@@ -7,6 +7,9 @@ let cache = {}
 let isReady = false  
 let lastScanSound = 0
 let audioCtx = null
+let currentResults = []
+let currentPage = 1
+const PER_PAGE = 10
 
 const MAX_RESULT = 100
 const TOTAL_FILE = 100  
@@ -855,110 +858,118 @@ async function searchData(keyword) {
 /* =========================  
 RENDER  
 ========================= */  
-function render(data) {  
-  resultEl.innerHTML = ""  
+function createCard(item) {
+  let diskonValue = item.diskon || item.raw?.diskon
 
-  if (!data || data.length === 0) {  
-    resultEl.innerHTML = "<p>Data tidak ditemukan</p>"  
-    return  
-  }  
+  if (
+    item.harga_promo &&
+    item.harga_promo.toString().toUpperCase().includes("SHARP")
+  ) {
+    diskonValue = "-"
+  }
 
-  data.forEach(item => {  
-    let diskonValue = item.diskon || item.raw?.diskon
+  const diskon = formatDiskon(diskonValue)
+  const isReward = isRewardItem(item)
 
-if (
-  item.harga_promo &&
-  item.harga_promo.toString().toUpperCase().includes("SHARP")
-) {
-  diskonValue = "-"
-}
+  const mulai = item.fromdate || item.raw?.fromdate || "-"
+  const akhir = item.todate || item.raw?.todate || "-"
 
-const diskon = formatDiskon(diskonValue)
+  const status = item._status || "Tidak diketahui"
+  const statusColor = getStatusColor(status)
 
-const isReward = isRewardItem(item)
+  const hargaNormal = !isNaN(item.harga_normal)
+    ? formatRupiah(item.harga_normal)
+    : item.harga_normal || "-"
 
-if (isReward) {
-  console.log("🎁 REWARD MATCH:", item.sku, item.article)
-}
+  const hargaPromo = !isNaN(item.harga_promo)
+    ? formatRupiah(item.harga_promo)
+    : item.harga_promo || "-"
 
-const rewardBadge = isReward
-  ? `<span style="
-      display:inline-block;
-      background:linear-gradient(45deg,#ffcc00,#ff8800);
-      color:#000;
-      padding:4px 8px;
-      border-radius:8px;
-      font-size:11px;
-      margin-top:4px;
-      font-weight:bold;
-    ">
-      🎁 +10% Matahari Reward
-    </span>`
-  : ""
+  const el = document.createElement("div")
+  el.className = "result-card"
 
-    const mulai = item.fromdate || item.raw?.fromdate || "-"  
-    const akhir = item.todate || item.raw?.todate || "-"  
+  el.innerHTML = `
+    <div class="card-header">
+      <div>
+        <div class="card-title">
+          ${highlight(item.deskripsi, searchInput.value)}
+        </div>
+      </div>
 
-    const status = item._status || "Tidak diketahui"
-    const statusColor = getStatusColor(status)
-
-    const el = document.createElement("div")  
-    el.className = "result-card"
-
-const hargaNormal = !isNaN(item.harga_normal)
-  ? formatRupiah(item.harga_normal)
-  : item.harga_normal || "-"
-
-const hargaPromo = !isNaN(item.harga_promo)
-  ? formatRupiah(item.harga_promo)
-  : item.harga_promo || "-"
-
-el.innerHTML = `
-  <div class="card-header">
-    <div>
-      <div class="card-title">
-        ${highlight(item.deskripsi, searchInput.value)}
+      <div class="badge-status" style="background:${statusColor}">
+        ${status}
       </div>
     </div>
 
-    <div class="badge-status" style="background:${statusColor}">
-      ${status}
+    ${isReward ? `<div class="badge-reward">🎁 +10% Matahari Reward</div>` : ""}
+
+    <div class="card-body">
+      <p>Brand: ${item.brand || "-"}</p>
+      <p>SKU: ${highlight(item.sku, searchInput.value)}</p>
+      <p>Article: ${highlight(item.article, searchInput.value)}</p>
+
+      <p class="harga-normal">
+        Harga Normal: ${hargaNormal}
+      </p>
+
+      <p class="harga-promo">
+        Harga Promo: ${hargaPromo}
+      </p>
+
+      <p class="diskon">
+        Diskon: ${diskon}
+      </p>
     </div>
-  </div>
 
-  ${isReward ? `<div class="badge-reward">🎁 +10% Matahari Reward</div>` : ""}
+    <div class="card-divider"></div>
 
-  <div class="card-body">
-    <p>Brand: ${item.brand || "-"}</p>
-    <p>SKU: ${highlight(item.sku, searchInput.value)}</p>
-    <p>Article: ${highlight(item.article, searchInput.value)}</p>
+    <div class="card-footer">
+      <p>📅 Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}</p>
+      <p>📄 Acara: ${item.acara || item.raw?.acara || "-"}</p>
+      <p>📁 Sumber File: ${getFileName(item.source)}</p>
+    </div>
+  `
 
-  <p class="harga-normal">
-  Harga Normal: ${hargaNormal}
-</p>
+  return el
+}
 
-<p class="harga-promo">
-  Harga Promo: ${hargaPromo}
-</p>
+function renderPage() {
+  resultEl.innerHTML = ""
 
-    <p class="diskon">
-      Diskon: ${diskon}
-    </p>
-  </div>
+  const end = currentPage * PER_PAGE
+  const visibleData = currentResults.slice(0, end)
 
-  <div class="card-divider"></div>
+  if (visibleData.length === 0) {
+    resultEl.innerHTML = "<p>Data tidak ditemukan</p>"
+    return
+  }
 
-  <div class="card-footer">
-    <p>📅 Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}</p>
-    <p>📄 Acara: ${item.acara || item.raw?.acara || "-"}</p>
-    <p>📁 Sumber File: ${getFileName(item.source)}</p>
-  </div>
-`
+  visibleData.forEach(item => {
+    const el = createCard(item)
+    resultEl.appendChild(el)
+  })
 
+  renderLoadMore()
+}
 
-    resultEl.appendChild(el)  
-  })  
-}  
+function renderLoadMore() {
+  const oldBtn = document.getElementById("loadMore")
+  if (oldBtn) oldBtn.remove()
+
+  if (currentResults.length <= currentPage * PER_PAGE) return
+
+  const btn = document.createElement("button")
+  btn.id = "loadMore"
+  btn.innerText = "Lihat Selanjutnya"
+  btn.className = "btn-load-more"
+
+  btn.onclick = () => {
+    currentPage++
+    renderPage()
+  }
+
+  resultEl.appendChild(btn)
+}
 
 /* =========================  
 EVENT  
@@ -984,9 +995,12 @@ searchInput.addEventListener("input", e => {
 
     statusEl.innerText = "Mencari..."  
 
-    const result = await searchData(keyword)  
+    const result = await searchData(keyword)
 
-    render(result)  
+currentResults = result
+currentPage = 1
+
+renderPage()
 
     statusEl.innerText = `Ditemukan ${result.length} data`  
   }, 200)  
