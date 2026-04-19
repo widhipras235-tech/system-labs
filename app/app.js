@@ -15,8 +15,8 @@ let isLoadingMore = false
 let observer = null    
 let currentKeyword = ""    
     
-const SOFT_LIMIT = 100    
-const HARD_LIMIT = 300    
+const SOFT_LIMIT = 300   
+const HARD_LIMIT = 1500    
 const TOTAL_FILE = 100      
     
 /* =========================      
