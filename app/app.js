@@ -7,17 +7,8 @@ let cache = {}
 let isReady = false  
 let lastScanSound = 0
 let audioCtx = null
-let currentResults = []
-let currentPage = 1
-const PER_PAGE = 8
 
-let isLoadingMore = false
-let observer = null
-let currentKeyword = ""
-let totalFound = 0
-
-const SOFT_LIMIT = 50
-const HARD_LIMIT = 2000
+const MAX_RESULT = 100
 const TOTAL_FILE = 100  
 
 /* =========================  
@@ -706,7 +697,7 @@ async function getExactResults(indexList, keyword) {
       })  
     }  
 
-    if (results.length >= HARD_LIMIT) break
+    if (results.length >= MAX_RESULT) break  
   }  
 
   return finalSort(results, keyword)
@@ -745,11 +736,11 @@ async function getResultsFromIndexes(indexes, keyword) {
         _statusPriority: getStatusPriority(status)
       })  
 
-      if (results.length >= HARD_LIMIT) break
+      if (results.length >= MAX_RESULT) break  
     }  
   }  
 
-  return finalSort(results, keyword).slice(0, HARD_LIMIT)
+  return finalSort(results, keyword).slice(0, MAX_RESULT)
 }  
 
 /* =========================  
@@ -789,21 +780,21 @@ async function fullScanSearch(keyword) {
         })  
       }
 
-      if (results.length >= HARD_LIMIT) break
+      if (results.length >= MAX_RESULT) break  
     }
 
-    if (results.length >= HARD_LIMIT) break
+    if (results.length >= MAX_RESULT) break  
 
     i++
   }
 
-  return finalSort(results, keyword).slice(0, HARD_LIMIT)
+  return finalSort(results, keyword).slice(0, MAX_RESULT)
 }
 
 /* =========================  
 SEARCH ENGINE  
 ========================= */  
-async function searchData(keyword, limit = SOFT_LIMIT, offset = 0) {  
+async function searchData(keyword) {  
   let keywords = keyword
     .toLowerCase()
     .split(" ")
@@ -816,14 +807,12 @@ async function searchData(keyword, limit = SOFT_LIMIT, offset = 0) {
 
   // ✅ EXACT MATCH DULU
   if (skuIndex[keyword]) {
-  const results = await getExactResults(skuIndex[keyword], keyword)
-  return results.slice(offset, offset + limit)
-}
+    return await getExactResults(skuIndex[keyword], keyword)
+  }
 
   if (articleIndex[keyword]) {
-  const results = await getExactResults(articleIndex[keyword], keyword)
-  return results.slice(offset, offset + limit)
-}
+    return await getExactResults(articleIndex[keyword], keyword)
+  }
 
   let indexes = new Set()  
   let prefix = keyword.slice(0, 3)  
@@ -834,9 +823,11 @@ async function searchData(keyword, limit = SOFT_LIMIT, offset = 0) {
 
     if (key.startsWith(keyword)) {  
       skuIndex[key].forEach(i => {  
-       if (indexes.size < HARD_LIMIT) indexes.add(i)  
+        if (indexes.size < MAX_RESULT) indexes.add(i)  
       })  
-    }  
+    }  
+
+    if (indexes.size >= MAX_RESULT) break  
   }  
 
   // ✅ CARI DARI ARTICLE INDEX (SUDAH DI POSISI BENAR)
@@ -845,249 +836,161 @@ async function searchData(keyword, limit = SOFT_LIMIT, offset = 0) {
 
     if (key.startsWith(keyword)) {  
       articleIndex[key].forEach(i => {  
-        if (indexes.size < HARD_LIMIT) indexes.add(i)  
+        if (indexes.size < MAX_RESULT) indexes.add(i)  
       })  
     }  
 
-   if (indexes.size >= HARD_LIMIT) break  
+    if (indexes.size >= MAX_RESULT) break  
   }
 
   // ✅ JIKA ADA HASIL DARI INDEX
   if (indexes.size > 0) {
-    const results = await getResultsFromIndexes(indexes, keyword)
-return results.slice(offset, offset + limit)
+    return await getResultsFromIndexes(indexes, keyword)
   }
 
   // ✅ FALLBACK KE FULL SCAN
-  const results = await fullScanSearch(keyword)
-return results.slice(offset, offset + limit)
-}
-
-/* =========================  
-LOAD MORE DATA  
-========================= */  
-async function loadMoreDataIfNeeded() {
-
-  // 🔥 PATCH GUARD
-  if (isLoading) return
-  if (currentResults.length % SOFT_LIMIT !== 0) return
-
-  isLoading = true
-
-  const more = await searchData(
-    currentKeyword,
-    SOFT_LIMIT,
-    currentResults.length
-  )
-
-  if (!more || more.length === 0) {
-    isLoading = false
-    return
-  }
-
-  // 🔥 WAJIB concat
-  currentResults = currentResults.concat(more)
-
-  console.log("=== LOAD MORE ===")
-  console.log("CURRENT:", currentResults.length)
-
-  isLoading = false
+  return await fullScanSearch(keyword)
 }
 
 /* =========================  
 RENDER  
 ========================= */  
-function createCard(item) {
-  let diskonValue = item.diskon || item.raw?.diskon
+function render(data) {  
+  resultEl.innerHTML = ""  
 
-  if (
-    item.harga_promo &&
-    item.harga_promo.toString().toUpperCase().includes("SHARP")
-  ) {
-    diskonValue = "-"
-  }
+  if (!data || data.length === 0) {  
+    resultEl.innerHTML = "<p>Data tidak ditemukan</p>"  
+    return  
+  }  
 
-  const diskon = formatDiskon(diskonValue)
-  const isReward = isRewardItem(item)
+  data.forEach(item => {  
+    let diskonValue = item.diskon || item.raw?.diskon
 
-  const mulai = item.fromdate || item.raw?.fromdate || "-"
-  const akhir = item.todate || item.raw?.todate || "-"
-
-  const status = item._status || "Tidak diketahui"
-  const statusColor = getStatusColor(status)
-
-  const hargaNormal = !isNaN(item.harga_normal)
-    ? formatRupiah(item.harga_normal)
-    : item.harga_normal || "-"
-
-  const hargaPromo = !isNaN(item.harga_promo)
-    ? formatRupiah(item.harga_promo)
-    : item.harga_promo || "-"
-
-  const el = document.createElement("div")
-  el.className = "result-card"
-
-  el.innerHTML = `
-    <div class="card-header">
-      <div>
-        <div class="card-title">
-          ${highlight(item.deskripsi, searchInput.value)}
-        </div>
-      </div>
-
-      <div class="badge-status" style="background:${statusColor}">
-        ${status}
-      </div>
-    </div>
-
-    ${isReward ? `<div class="badge-reward">🎁 +10% Matahari Reward</div>` : ""}
-
-    <div class="card-body">
-      <p>Brand: ${item.brand || "-"}</p>
-      <p>SKU: ${highlight(item.sku, searchInput.value)}</p>
-      <p>Article: ${highlight(item.article, searchInput.value)}</p>
-
-      <p class="harga-normal">
-        Harga Normal: ${hargaNormal}
-      </p>
-
-      <p class="harga-promo">
-        Harga Promo: ${hargaPromo}
-      </p>
-
-      <p class="diskon">
-        Diskon: ${diskon}
-      </p>
-    </div>
-
-    <div class="card-divider"></div>
-
-    <div class="card-footer">
-      <p>📅 Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}</p>
-      <p>📄 Acara: ${item.acara || item.raw?.acara || "-"}</p>
-      <p>📁 Sumber File: ${getFileName(item.source)}</p>
-    </div>
-  `
-
-  return el
+if (
+  item.harga_promo &&
+  item.harga_promo.toString().toUpperCase().includes("SHARP")
+) {
+  diskonValue = "-"
 }
 
-function renderPage() {
-  resultEl.innerHTML = ""
+const diskon = formatDiskon(diskonValue)
 
-  const end = currentPage * PER_PAGE
-  const visibleData = currentResults.slice(0, end)
+const isReward = isRewardItem(item)
 
-  if (visibleData.length === 0) {
-    resultEl.innerHTML = "<p>Data tidak ditemukan</p>"
-    return
-  }
-
-  visibleData.forEach(item => {
-    const el = createCard(item)
-    resultEl.appendChild(el)
-  })
-
-  // 🔥 PATCH: hanya aktif kalau masih ada data
-  if (currentResults.length > currentPage * PER_PAGE) {
-    createObserver()
-  }
+if (isReward) {
+  console.log("🎁 REWARD MATCH:", item.sku, item.article)
 }
 
+const rewardBadge = isReward
+  ? `<span style="
+      display:inline-block;
+      background:linear-gradient(45deg,#ffcc00,#ff8800);
+      color:#000;
+      padding:4px 8px;
+      border-radius:8px;
+      font-size:11px;
+      margin-top:4px;
+      font-weight:bold;
+    ">
+      🎁 +10% Matahari Reward
+    </span>`
+  : ""
+
+    const mulai = item.fromdate || item.raw?.fromdate || "-"  
+    const akhir = item.todate || item.raw?.todate || "-"  
+
+    const status = item._status || "Tidak diketahui"
+    const statusColor = getStatusColor(status)
+
+    const el = document.createElement("div")  
+    el.className = "result-card"
+
+const hargaNormal = !isNaN(item.harga_normal)
+  ? formatRupiah(item.harga_normal)
+  : item.harga_normal || "-"
+
+const hargaPromo = !isNaN(item.harga_promo)
+  ? formatRupiah(item.harga_promo)
+  : item.harga_promo || "-"
+
+el.innerHTML = `
+  <div class="card-header">
+    <div>
+      <div class="card-title">
+        ${highlight(item.deskripsi, searchInput.value)}
+      </div>
+    </div>
+
+    <div class="badge-status" style="background:${statusColor}">
+      ${status}
+    </div>
+  </div>
+
+  ${isReward ? `<div class="badge-reward">🎁 +10% Matahari Reward</div>` : ""}
+
+  <div class="card-body">
+    <p>Brand: ${item.brand || "-"}</p>
+    <p>SKU: ${highlight(item.sku, searchInput.value)}</p>
+    <p>Article: ${highlight(item.article, searchInput.value)}</p>
+
+  <p class="harga-normal">
+  Harga Normal: ${hargaNormal}
+</p>
+
+<p class="harga-promo">
+  Harga Promo: ${hargaPromo}
+</p>
+
+    <p class="diskon">
+      Diskon: ${diskon}
+    </p>
+  </div>
+
+  <div class="card-divider"></div>
+
+  <div class="card-footer">
+    <p>📅 Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}</p>
+    <p>📄 Acara: ${item.acara || item.raw?.acara || "-"}</p>
+    <p>📁 Sumber File: ${getFileName(item.source)}</p>
+  </div>
+`
+
+
+    resultEl.appendChild(el)  
+  })  
+}  
 
 /* =========================  
-OBSERVER  
+EVENT  
 ========================= */  
-function createObserver() {
-  if (observer) observer.disconnect() // 🔥 PATCH WAJIB
+let timer  
 
-  const sentinel = document.createElement("div")
-  sentinel.className = "sentinel"
-  resultEl.appendChild(sentinel)
+searchInput.addEventListener("input", e => {  
+  clearTimeout(timer)  
 
-  observer = new IntersectionObserver(async entries => {
-    if (entries[0].isIntersecting) {
-      console.log("👀 OBSERVER TRIGGER")
+  const keyword = e.target.value  
 
-      observer.disconnect()
+  if (!isReady) {  
+    statusEl.innerText = "Loading..."  
+    return  
+  }  
 
-      await loadMoreDataIfNeeded()
+  timer = setTimeout(async () => {  
+    if (!keyword.trim()) {  
+      resultEl.innerHTML = ""  
+      statusEl.innerText = "Ketik untuk mencari"  
+      return  
+    }  
 
-      currentPage++
-      renderPage()
-    }
-  })
+    statusEl.innerText = "Mencari..."  
 
-  observer.observe(sentinel)
-}
+    const result = await searchData(keyword)  
 
-function showLoadingSkeleton() {
-  for (let i = 0; i < 3; i++) {
-    const el = document.createElement("div")
-    el.className = "skeleton"
-    resultEl.appendChild(el)
-  }
-}
+    render(result)  
 
-function renderLoadMore() {
-  const oldBtn = document.getElementById("loadMore")
-  if (oldBtn) oldBtn.remove()
-
-  if (currentResults.length <= currentPage * PER_PAGE) return
-
-  const btn = document.createElement("button")
-  btn.id = "loadMore"
-  btn.innerText = "Lihat Selanjutnya"
-  btn.className = "btn-load-more"
-
-  btn.onclick = () => {
-    currentPage++
-    renderPage()
-  }
-
-  resultEl.appendChild(btn)
-}
-
-let timer
-searchInput.addEventListener("input", e => {
-  clearTimeout(timer)
-
-  const keyword = e.target.value.trim()
-
-  // 🔥 PATCH WAJIB
-  currentKeyword = keyword
-
-  timer = setTimeout(async () => {
-
-    if (!isReady) {
-      statusEl.innerText = "Loading..."
-      return
-    }
-
-    if (!keyword) {
-      resultEl.innerHTML = ""
-      statusEl.innerText = ""
-      return
-    }
-
-    statusEl.innerText = "Mencari..."
-
-    currentPage = 1
-
-    // 🔥 ambil data awal
-    const result = await searchData(keyword, SOFT_LIMIT, 0)
-
-    currentResults = result
-
-    console.log("=== INITIAL LOAD ===")
-    console.log("CURRENT:", currentResults.length)
-
-    renderPage()
-
-    statusEl.innerText = `${currentResults.length} hasil`
-
-  }, 300)
-})
+    statusEl.innerText = `Ditemukan ${result.length} data`  
+  }, 200)  
+})  
 
 /* =========================  
 AUTO UPDATE  
