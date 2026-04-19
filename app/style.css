@@ -378,3 +378,17 @@ AUTO HIDE SCAN BAR
   opacity:0;
   pointer-events:none;
 }
+
+/* Lazy Load */
+.skeleton {
+  height: 100px;
+  border-radius: 12px;
+  margin: 10px 0;
+  background: linear-gradient(90deg, #eee, #ddd, #eee);
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0 }
+  100% { background-position: 200px 0 }
+}
