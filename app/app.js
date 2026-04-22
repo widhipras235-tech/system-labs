@@ -1064,7 +1064,7 @@ searchInput.addEventListener("input", e => {
     
     statusEl.innerText = "Mencari..."      
     
-    const result = await searchData(keyword)    
+    const result = await searchData(keyword, HARD_LIMIT, 0) 
     
     currentKeyword = keyword    
     currentResults = result    
