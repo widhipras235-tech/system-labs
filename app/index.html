@@ -11,13 +11,20 @@
 <link rel="stylesheet" href="style.css">
 
 <script>
-function closePopup(){
-  document.getElementById("promoPopup").style.display = "none"
+function showToast(){
+  const toast = document.getElementById("toast")
+
+  toast.classList.add("show")
+
+  // auto hide 5 detik
+  setTimeout(() => {
+    toast.classList.remove("show")
+  }, 5000)
 }
 
-// 🔥 Popup selalu muncul saat halaman load / refresh
+// tampil saat load
 window.addEventListener("load", () => {
-  document.getElementById("promoPopup").style.display = "flex"
+  showToast()
 })
 </script>
 
@@ -202,67 +209,46 @@ AUTO HIDE ANIMATION
   border-radius: 10px;
 }
 
-/* POP UP PROMO */
-.popup-overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+/* =========================
+TOAST MODERN
+========================= */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
 
-  background:rgba(0,0,0,0.5);
+  width: 90%;
+  max-width: 340px;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  background: rgba(30,30,30,0.95);
+  color: white;
 
-  z-index:2000;
+  border-radius: 16px;
+  padding: 15px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  backdrop-filter: blur(12px);
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20000;
+
+  transition: all 0.4s ease;
 }
 
-.popup-box{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  width:85%;
-  max-width:320px;
-
-  text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
-
-  animation:popupFade 0.3s ease;
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
 
-.popup-box p{
-  font-size:14px;
-  color:#333;
-  line-height:1.5;
+.toast a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #25D366;
+  font-weight: bold;
+  text-decoration: none;
 }
-
-.popup-box button{
-  margin-top:15px;
-  padding:10px 20px;
-
-  border:none;
-  border-radius:10px;
-
-  background:#ff2d2d;
-  color:white;
-  font-weight:bold;
-
-  cursor:pointer;
-}
-
-@keyframes popupFade{
-  from{
-    transform:scale(0.8);
-    opacity:0;
-  }
-  to{
-    transform:scale(1);
-    opacity:1;
-  }
-}
-
 </style>
 
 </head>
@@ -330,13 +316,15 @@ AUTO HIDE ANIMATION
 <!-- APP -->
 <script src="app.js"></script>
 
-<div id="promoPopup" class="popup-overlay">
-  <div class="popup-box">
+<div id="toast" class="toast">
+  <div class="toast-content">
     <p>
       Promo Beli 3 Diskon 10% sudah berakhir sejak tanggal 9 April 2026.<br><br>
-      Apabila di hasil pencarian masih terdapat promo tersebut maka diikutkan <b>SHARP PRICE</b>.
+      Jika masih muncul, promo mengikuti <b>SHARP PRICE</b>.<br><br>
+
+      Kendala teknis atau request fitur bisa<br>
+      <a href="https://wa.me/6285713382219" target="_blank">Hubungi Admin</a>
     </p>
-    <button onclick="closePopup()">OK</button>
   </div>
 </div>
 </body>
