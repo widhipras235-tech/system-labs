@@ -17,7 +17,7 @@ let currentKeyword = ""
     
 const SOFT_LIMIT = 1300   
 const HARD_LIMIT = 1500    
-const TOTAL_FILE = 100      
+const TOTAL_FILE = 130     
     
 /* =========================      
 ELEMENT      
