@@ -1013,6 +1013,9 @@ ${isReward ? `
 </div>
 ` : ""}
 `
+return el
+}
+
 function renderPage() {    
   resultEl.innerHTML = ""    
     
