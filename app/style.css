@@ -175,99 +175,150 @@ CARD NEW DESIGN (PRO LEVEL)
   overflow-wrap: break-word;
 }
 
-/* HEADER */
-.card-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:8px;
+/* ==========================================
+CARD PROFESSIONAL
+========================================== */
+
+.result-card{
+    background:#fff;
+    border-radius:22px;
+    padding:22px;
+    margin-bottom:22px;
+    box-shadow:0 8px 28px rgba(0,0,0,.08);
+    animation:fadeIn .2s ease;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
 }
 
 .card-title{
-  font-size:17px;
-  font-weight:700;
-  color:#222;
-  line-height:1.3;
-
-  flex:1;              
-  min-width:0;         
-  word-break:break-word;
-  overflow-wrap:break-word;
+    font-size:28px;
+    font-weight:700;
+    color:#111;
+    line-height:1.2;
 }
 
-.card-sub{
-  font-size:14px;
-  color:#666;
-  margin-top:3px;
-  word-break:break-word;
-}
-
-/* STATUS */
 .badge-status{
-  font-size:12px;
-  padding:4px 10px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-
-  flex-shrink:0; 
+    padding:10px 18px;
+    border-radius:999px;
+    color:#fff;
+    font-weight:700;
+    font-size:15px;
 }
 
-/* REWARD */
-.badge-reward{
-  display:inline-block;
-  font-size:12px;
-  padding:5px 10px;
-  border-radius:999px;
-  margin-top:8px;
-
-  background:#f5e9e6;
-  color:#a65a4d;
+.card-tag{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+    flex-wrap:wrap;
 }
 
-/* BODY */
-.card-body{
-  margin-top:10px;
-  font-size:15px;
-  color:#333;
+.tag{
+    padding:8px 16px;
+    border-radius:10px;
+    background:#f2f2f2;
+    font-size:14px;
+    font-weight:600;
 }
 
-.card-body p{
-  margin:2px 0;
+.tag.red{
+    background:#ffe5e5;
+    color:#d32f2f;
 }
 
-/* PRICE */
-.harga-normal{
-  color:#555;
-  font-size:14px;
-  font-weight:500;
+.card-middle{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:30px;
+    margin-top:25px;
 }
 
-.harga-promo{
-  color:#d32f2f;
-  font-size:16px;
-  font-weight:700;
+.card-info p{
+    margin:8px 0;
+    font-size:17px;
 }
 
-.diskon{
-  color:#2e7d32;
-  font-weight:600;
+.price-box{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-left:1px solid #eee;
 }
 
-/* DIVIDER */
-.card-divider{
-  margin:10px 0;
-  border-top:1px solid #eee;
+.price-item{
+    padding:0 20px;
+    border-right:1px solid #eee;
 }
 
-/* FOOTER */
-.card-footer{
-  font-size:13px;
-  color:#555;
+.price-item:last-child{
+    border-right:none;
 }
 
-.card-footer p{
-  margin:3px 0;
+.price-label{
+    color:#666;
+    font-size:15px;
+}
+
+.price-normal{
+    margin-top:8px;
+    font-size:20px;
+    color:#666;
+    text-decoration:line-through;
+}
+
+.price-promo{
+    margin-top:8px;
+    font-size:40px;
+    color:#e30000;
+    font-weight:700;
+}
+
+.price-discount{
+    margin-top:8px;
+    font-size:36px;
+    color:#17a53c;
+    font-weight:700;
+}
+
+.card-bottom{
+    margin-top:25px;
+    background:#f8f8f8;
+    border-radius:18px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+}
+
+.bottom-item{
+    padding:20px;
+}
+
+.bottom-item:not(:last-child){
+    border-right:1px solid #e5e5e5;
+}
+
+.bottom-title{
+    color:#777;
+    font-size:15px;
+    margin-bottom:8px;
+}
+
+.bottom-value{
+    font-size:18px;
+    font-weight:600;
+}
+
+.reward{
+    margin-top:16px;
+    display:inline-block;
+    padding:8px 14px;
+    background:#fff4d9;
+    color:#a56a00;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
 }
 
 /* button selanjutnya */
