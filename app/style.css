@@ -395,41 +395,52 @@ AUTO HIDE SCAN BAR
 
 /* ======================================
 DESKTOP LAYOUT (Tablet & PC)
-Tidak mengubah tampilan HP
+Header Full Width
 ====================================== */
-@media (min-width: 768px) {
+@media (min-width:768px){
 
   body{
     background:#ececec;
   }
 
-  /* Header berada di tengah */
+  /* Header tetap full layar */
   .header{
     width:100%;
-    max-width:700px;
-    margin:0 auto;
-    border-bottom-left-radius:20px;
-    border-bottom-right-radius:20px;
+    max-width:none;
+    margin:0;
+    border-bottom-left-radius:28px;
+    border-bottom-right-radius:28px;
   }
 
-  /* Area konten */
+  /* Search Box di tengah */
+  .header-search{
+    max-width:760px;
+    margin:10px auto 0;
+  }
+
+  .search-box input{
+    width:100%;
+    max-width:760px;
+  }
+
+  /* Area hasil pencarian */
   main{
-    max-width:700px;
-    margin:20px auto;
+    max-width:760px;
+    margin:25px auto;
     padding:20px;
   }
 
-  /* Search lebih proporsional */
-  .search-box input{
-    width:100%;
+  /* Card */
+  .result-card{
+    padding:20px;
   }
 
-  /* Popup tetap di tengah */
+  /* Popup */
   .md-modal{
-    max-width:420px;
+    max-width:450px;
   }
 
-  /* Scan bar ikut di tengah container */
+  /* Scan Bar */
   #scanBar{
     left:50%;
     transform:translateX(-50%);
@@ -437,11 +448,6 @@ Tidak mengubah tampilan HP
 
   #scanBar.hide{
     transform:translateX(-50%) translateY(120px);
-  }
-
-  /* Card sedikit lebih lega */
-  .result-card{
-    padding:20px;
   }
 
 }
