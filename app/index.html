@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-60S9XR6PSK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-60S9XR6PSK');
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#ff2d2d">
@@ -347,49 +357,21 @@ AUTO HIDE ANIMATION
 
 <header class="header" id="header">
 
-    <h1 class="logo">
-        Capee<span>X</span>
-    </h1>
-
-    <p class="subtext">
-        Cek Promo • Scan SKU • Online
-    </p>
-
-    <div class="header-search">
-
-        <div class="search-box">
-
-            <input
-                id="search"
-                placeholder="Cari SKU, Artikel, Brand, atau Deskripsi">
-
-            <button class="search-btn">
-                🔍
-            </button>
-
-        </div>
-
+  <div class="header-top">
+    <div class="logo">
+     <h1 class="logo">Capee<span>X</span></h1>
+<p class="subtext">Cek Promo • Scan SKU • Online</p>
     </div>
+  </div>
+
+  <div class="header-search">
+    <div class="search-box">
+      <input id="search" placeholder="Cari SKU, artikel, deskripsi, brand">
+      <button class="search-btn">🔍</button>
+    </div>
+  </div>
 
 </header>
-<div class="toolbar">
-
-    <div class="total-data">
-
-        📄
-        <span id="totalData">
-            Ditemukan 0 data
-        </span>
-
-    </div>
-
-    <button class="filter-btn">
-
-        ☰ Filter
-
-    </button>
-
-</div>
 
 <main>
   <div id="status">Loading...</div>
