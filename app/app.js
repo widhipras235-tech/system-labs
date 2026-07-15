@@ -909,113 +909,51 @@ function createCard(item) {
   const el = document.createElement("div")    
   el.className = "result-card"    
     
-  el.innerHTML = `
-<div class="card-header">
-
-    <div class="title-group">
-        <div class="card-title">
-            ${highlight(item.deskripsi, searchInput.value)}
-        </div>
-
-        <div class="tag-row">
-            <span class="tag tag-red">${highlight(item.article, searchInput.value)}</span>
-            <span class="tag">${item.warna || "-"}</span>
-            <span class="tag">${item.ukuran || "-"}</span>
-            <span class="tag">${item.tipe || "-"}</span>
-        </div>
-    </div>
-
-    <div class="badge-status status-${statusColor}">
-        ● ${status}
-    </div>
-
-</div>
-
-<div class="card-main">
-
-    <div class="info-column">
-
-        <div class="info-row">
-            <span>Brand</span>
-            <strong>${item.brand || "-"}</strong>
-        </div>
-
-        <div class="info-row">
-            <span>SKU</span>
-            <strong>${highlight(item.sku, searchInput.value)}</strong>
-        </div>
-
-        <div class="info-row">
-            <span>Article</span>
-            <strong>${highlight(item.article, searchInput.value)}</strong>
-        </div>
-
-    </div>
-
-    <div class="price-column">
-
-        <div class="price-box">
-            <small>Harga Normal</small>
-            <div class="harga-normal">
-                ${hargaNormal}
-            </div>
-        </div>
-
-        <div class="price-box promo">
-            <small>Harga Promo</small>
-            <div class="harga-promo">
-                ${hargaPromo}
-            </div>
-        </div>
-
-        <div class="price-box diskon-box">
-            <small>Diskon</small>
-            <div class="diskon">
-                ${diskon}
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
-<div class="info-footer">
-
-    <div class="footer-item">
-        📅
-        <div>
-            <small>Berlaku</small>
-            <strong>${formatTanggal(mulai)} - ${formatTanggal(akhir)}</strong>
-        </div>
-    </div>
-
-    <div class="footer-item">
-        🏷
-        <div>
-            <small>Acara</small>
-            <strong>${item.acara || item.raw?.acara || "-"}</strong>
-        </div>
-    </div>
-
-    <div class="footer-item">
-        📁
-        <div>
-            <small>Sumber File</small>
-            <strong>${getFileName(item.source)}</strong>
-        </div>
-    </div>
-
-</div>
-
-${isReward ? `
-<div class="reward-box">
-🎁 +10% Matahari Reward
-</div>
-` : ""}
-`
-return el
-}
-
+  el.innerHTML = `    
+    <div class="card-header">    
+      <div>    
+        <div class="card-title">    
+          ${highlight(item.deskripsi, searchInput.value)}    
+        </div>    
+      </div>    
+    
+      <div class="badge-status" style="background:${statusColor}">    
+        ${status}    
+      </div>    
+    </div>    
+    
+    ${isReward ? `<div class="badge-reward">🎁 +10% Matahari Reward</div>` : ""}    
+    
+    <div class="card-body">    
+      <p>Brand: ${item.brand || "-"}</p>    
+      <p>SKU: ${highlight(item.sku, searchInput.value)}</p>    
+      <p>Article: ${highlight(item.article, searchInput.value)}</p>    
+    
+      <p class="harga-normal">    
+        Harga Normal: ${hargaNormal}    
+      </p>    
+    
+      <p class="harga-promo">    
+        Harga Promo: ${hargaPromo}    
+      </p>    
+    
+      <p class="diskon">    
+        Diskon: ${diskon}    
+      </p>    
+    </div>    
+    
+    <div class="card-divider"></div>    
+    
+    <div class="card-footer">    
+      <p>📅 Berlaku: ${formatTanggal(mulai)} - ${formatTanggal(akhir)}</p>    
+      <p>📄 Acara: ${item.acara || item.raw?.acara || "-"}</p>    
+      <p>📁 Sumber File: ${getFileName(item.source)}</p>    
+    </div>    
+  `    
+    
+  return el    
+}    
+    
 function renderPage() {    
   resultEl.innerHTML = ""    
     
