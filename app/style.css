@@ -176,151 +176,186 @@ CARD NEW DESIGN (PRO LEVEL)
 }
 
 /* ==========================================
-CARD PROFESSIONAL
+CARD PROFESSIONAL (NEW)
 ========================================== */
 
 .result-card{
     background:#fff;
-    border-radius:22px;
-    padding:22px;
-    margin-bottom:22px;
-    box-shadow:0 8px 28px rgba(0,0,0,.08);
-    animation:fadeIn .2s ease;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    animation:fadeIn .25s ease;
 }
 
-.card-top{
+.card-header{
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
-    gap:15px;
+    gap:16px;
+}
+
+.title-group{
+    flex:1;
+    min-width:0;
 }
 
 .card-title{
-    font-size:28px;
+    font-size:26px;
     font-weight:700;
-    color:#111;
-    line-height:1.2;
+    line-height:1.25;
+    color:#222;
+    word-break:break-word;
 }
 
-.badge-status{
-    padding:10px 18px;
-    border-radius:999px;
-    color:#fff;
-    font-weight:700;
-    font-size:15px;
-}
-
-.card-tag{
+.tag-row{
     display:flex;
-    gap:10px;
-    margin-top:18px;
     flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
 }
 
 .tag{
-    padding:8px 16px;
-    border-radius:10px;
+    padding:6px 12px;
     background:#f2f2f2;
-    font-size:14px;
+    border-radius:8px;
+    font-size:13px;
     font-weight:600;
+    color:#444;
 }
 
-.tag.red{
+.tag-red{
     background:#ffe5e5;
     color:#d32f2f;
 }
 
-.card-middle{
-    display:grid;
-    grid-template-columns:1.2fr 1fr;
-    gap:30px;
-    margin-top:25px;
+.badge-status{
+    padding:7px 14px;
+    border-radius:999px;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
 }
 
-.card-info p{
-    margin:8px 0;
-    font-size:17px;
+.status-green{
+    background:#2e7d32;
+}
+
+.status-orange{
+    background:#ef6c00;
+}
+
+.status-red{
+    background:#d32f2f;
+}
+
+.status-gray{
+    background:#757575;
+}
+
+.card-main{
+    display:grid;
+    grid-template-columns:1fr 280px;
+    gap:24px;
+    margin-top:18px;
+}
+
+.info-column{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    font-size:15px;
+}
+
+.info-row span{
+    color:#777;
+}
+
+.info-row strong{
+    color:#222;
+    text-align:right;
+}
+
+.price-column{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
 .price-box{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    border-left:1px solid #eee;
+    background:#fafafa;
+    border:1px solid #eee;
+    border-radius:10px;
+    padding:12px;
 }
 
-.price-item{
-    padding:0 20px;
-    border-right:1px solid #eee;
-}
-
-.price-item:last-child{
-    border-right:none;
-}
-
-.price-label{
-    color:#666;
-    font-size:15px;
-}
-
-.price-normal{
-    margin-top:8px;
-    font-size:20px;
-    color:#666;
-    text-decoration:line-through;
-}
-
-.price-promo{
-    margin-top:8px;
-    font-size:40px;
-    color:#e30000;
-    font-weight:700;
-}
-
-.price-discount{
-    margin-top:8px;
-    font-size:36px;
-    color:#17a53c;
-    font-weight:700;
-}
-
-.card-bottom{
-    margin-top:25px;
-    background:#f8f8f8;
-    border-radius:18px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-}
-
-.bottom-item{
-    padding:20px;
-}
-
-.bottom-item:not(:last-child){
-    border-right:1px solid #e5e5e5;
-}
-
-.bottom-title{
+.price-box small{
+    display:block;
     color:#777;
-    font-size:15px;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 
-.bottom-value{
+.harga-normal{
     font-size:18px;
-    font-weight:600;
+    color:#666;
 }
 
-.reward{
-    margin-top:16px;
-    display:inline-block;
-    padding:8px 14px;
-    background:#fff4d9;
-    color:#a56a00;
-    border-radius:999px;
-    font-size:13px;
+.harga-promo{
+    font-size:26px;
+    color:#e53935;
     font-weight:700;
 }
 
+.diskon{
+    font-size:22px;
+    color:#2e7d32;
+    font-weight:700;
+}
+
+.info-footer{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.footer-item{
+    background:#fafafa;
+    border-radius:10px;
+    padding:12px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.footer-item small{
+    display:block;
+    color:#777;
+}
+
+.footer-item strong{
+    display:block;
+    margin-top:4px;
+    font-size:14px;
+    line-height:1.4;
+}
+
+.reward-box{
+    margin-top:16px;
+    padding:10px;
+    text-align:center;
+    background:#fff5d6;
+    color:#a66b00;
+    border-radius:10px;
+    font-weight:700;
+}
 /* button selanjutnya */
 .btn-load-more {
   width: 100%;
@@ -506,56 +541,55 @@ Header Full Width
 @media (max-width:767px){
 
 .result-card{
-    padding:18px;
+    padding:16px;
+}
+
+.card-header{
+    flex-direction:column;
 }
 
 .card-title{
-    font-size:20px;
+    font-size:18px;
 }
 
-.card-middle{
-    display:block;
+.tag{
+    font-size:12px;
 }
 
-.price-box{
-    margin-top:18px;
-    border:none;
-    border-top:1px solid #eee;
-    padding-top:18px;
-}
-
-.price-item{
-    padding:0 10px;
-}
-
-.price-normal{
-    font-size:16px;
-}
-
-.price-promo{
-    font-size:24px;
-}
-
-.price-discount{
-    font-size:22px;
-}
-
-.card-bottom{
+.card-main{
     grid-template-columns:1fr;
 }
 
-.bottom-item{
-    border-right:none !important;
-    border-bottom:1px solid #ececec;
+.info-row{
+    font-size:14px;
 }
 
-.bottom-item:last-child{
-    border-bottom:none;
+.price-column{
+    margin-top:15px;
+}
+
+.harga-normal{
+    font-size:16px;
+}
+
+.harga-promo{
+    font-size:22px;
+}
+
+.diskon{
+    font-size:20px;
+}
+
+.info-footer{
+    grid-template-columns:1fr;
+}
+
+.footer-item{
+    padding:10px;
 }
 
 .badge-status{
-    font-size:13px;
-    padding:7px 14px;
+    align-self:flex-start;
 }
 
 }
