@@ -426,9 +426,9 @@ Header Full Width
   /* Area hasil pencarian */
   main{
     max-width:760px;
-    margin:8px auto;
+    margin:0 auto 25px;
     padding:20px;
-  }
+}
 
   /* Card */
   .result-card{
