@@ -502,3 +502,60 @@ Header Full Width
   }
 
 }
+
+@media (max-width:767px){
+
+.result-card{
+    padding:18px;
+}
+
+.card-title{
+    font-size:20px;
+}
+
+.card-middle{
+    display:block;
+}
+
+.price-box{
+    margin-top:18px;
+    border:none;
+    border-top:1px solid #eee;
+    padding-top:18px;
+}
+
+.price-item{
+    padding:0 10px;
+}
+
+.price-normal{
+    font-size:16px;
+}
+
+.price-promo{
+    font-size:24px;
+}
+
+.price-discount{
+    font-size:22px;
+}
+
+.card-bottom{
+    grid-template-columns:1fr;
+}
+
+.bottom-item{
+    border-right:none !important;
+    border-bottom:1px solid #ececec;
+}
+
+.bottom-item:last-child{
+    border-bottom:none;
+}
+
+.badge-status{
+    font-size:13px;
+    padding:7px 14px;
+}
+
+}
