@@ -24,7 +24,10 @@ ELEMENT
 ========================= */      
 const searchInput = document.getElementById("search")      
 const resultEl = document.getElementById("result")      
-const statusEl = document.getElementById("status")      
+const statusEl = document.getElementById("status")  
+const resultInfo = document.getElementById("resultInfo")
+const jumlahData = document.getElementById("jumlahData")
+const keywordCari = document.getElementById("keywordCari")    
 const btnCamera = document.getElementById("btnCamera")    
 const video = document.getElementById("camera")    
 const canvas = document.getElementById("canvas")    
@@ -1056,23 +1059,54 @@ searchInput.addEventListener("input", e => {
   }      
     
   timer = setTimeout(async () => {      
-    if (!keyword.trim()) {      
-      resultEl.innerHTML = ""      
-      statusEl.innerText = "Ketik untuk mencari"      
-      return      
-    }      
-    
-    statusEl.innerText = "Mencari..."      
-    
-    const result = await searchData(keyword, HARD_LIMIT, 0) 
-    
-    currentKeyword = keyword    
-    currentResults = result    
-    currentPage = 1    
-    
-    renderPage()    
-    
-    statusEl.innerText = `Ditemukan ${currentResults.length} data`      
+    if (!keyword.trim()) {
+
+    resultEl.innerHTML = ""
+
+    statusEl.style.display = "block"
+    statusEl.innerText = "Ketik untuk mencari"
+
+    resultInfo.style.display = "none"
+
+    return
+}
+
+statusEl.style.display = "block"
+statusEl.innerText = "Mencari..."
+
+const result = await searchData(keyword, HARD_LIMIT, 0)
+
+currentKeyword = keyword
+currentResults = result
+currentPage = 1
+
+renderPage()
+
+// sembunyikan tulisan lama
+statusEl.style.display = "none"
+
+// tampilkan card hasil
+resultInfo.style.display = "flex"
+
+jumlahData.textContent = currentResults.length
+keywordCari.textContent = keyword
+
+if(currentResults.length===0){
+
+    resultInfo.style.display="none"
+
+    statusEl.style.display="block"
+    statusEl.innerText="Produk tidak ditemukan"
+
+}else{
+
+    statusEl.style.display="none"
+
+    resultInfo.style.display="flex"
+
+    jumlahData.textContent=currentResults.length
+    keywordCari.textContent=keyword
+}
   }, 200)      
 })    
     
