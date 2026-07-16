@@ -27,7 +27,10 @@ const resultEl = document.getElementById("result")
 const statusEl = document.getElementById("status")  
 const resultInfo = document.getElementById("resultInfo")
 const jumlahData = document.getElementById("jumlahData")
-const keywordCari = document.getElementById("keywordCari") 
+const keywordCari = document.getElementById("keywordCari")
+const emptyState=document.getElementById("emptyState")
+const emptyKeyword=document.getElementById("emptyKeyword")
+const btnRetry=document.getElementById("btnRetry") 
 const sortSelect = document.getElementById("sortSelect")   
 const btnCamera = document.getElementById("btnCamera")    
 const video = document.getElementById("camera")    
@@ -1076,24 +1079,49 @@ function showLoadingSkeleton() {
   }    
 }    
     
-function renderLoadMore() {    
-  const oldBtn = document.getElementById("loadMore")    
-  if (oldBtn) oldBtn.remove()    
-    
-  if (currentResults.length <= currentPage * PER_PAGE) return    
-    
-  const btn = document.createElement("button")    
-  btn.id = "loadMore"    
-  btn.innerText = "Lihat Selanjutnya"    
-  btn.className = "btn-load-more"    
-    
-  btn.onclick = () => {    
-    currentPage++    
-    renderPage()    
-  }    
-    
-  resultEl.appendChild(btn)    
-}    
+function renderLoadMore() {
+
+    const oldBtn = document.getElementById("loadMore")
+    if (oldBtn) oldBtn.remove()
+
+    if (currentResults.length <= currentPage * PER_PAGE) return
+
+    const btn = document.createElement("button")
+    btn.id = "loadMore"
+    btn.innerText = "Lihat Selanjutnya"
+    btn.className = "btn-load-more"
+
+    btn.onclick = () => {
+        currentPage++
+        renderPage()
+    }
+
+    resultEl.appendChild(btn)
+}
+
+/* =========================
+EMPTY STATE
+========================= */
+
+function showEmpty(keyword){
+
+    emptyKeyword.textContent = keyword
+
+    emptyState.style.display = "block"
+
+    resultEl.innerHTML = ""
+
+    statusEl.style.display = "none"
+
+    resultInfo.style.display = "none"
+
+}
+
+function hideEmpty(){
+
+    emptyState.style.display = "none"
+
+}
     
 /* =========================      
 EVENT      
@@ -1112,6 +1140,8 @@ searchInput.addEventListener("input", e => {
     
   timer = setTimeout(async () => {      
     if (!keyword.trim()) {
+
+    hideEmpty()
 
     resultEl.innerHTML = ""
 
@@ -1145,21 +1175,43 @@ keywordCari.textContent = keyword
 
 if(currentResults.length===0){
 
-    resultInfo.style.display="none"
-
-    statusEl.style.display="block"
-    statusEl.innerText="Produk tidak ditemukan"
+    showEmpty(keyword)
 
 }else{
+
+    hideEmpty()
 
     statusEl.style.display="none"
 
     resultInfo.style.display="flex"
 
     jumlahData.textContent=currentResults.length
+
     keywordCari.textContent=keyword
+
 }
   }, 200)      
+})
+
+/* =========================
+EVENT BUTTON
+========================= */
+
+btnRetry.addEventListener("click", () => {
+
+    searchInput.value = ""
+
+    hideEmpty()
+
+    resultEl.innerHTML = ""
+
+    statusEl.style.display = "block"
+    statusEl.innerText = "Ketik untuk mencari"
+
+    resultInfo.style.display = "none"
+
+    searchInput.focus()
+
 })    
     
 /* =========================      
