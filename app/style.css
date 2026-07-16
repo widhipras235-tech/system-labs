@@ -158,6 +158,105 @@ main{
   padding:15px;
 }
 
+/*============================
+HASIL PENCARIAN
+============================*/
+
+.result-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#fff;
+    border-radius:18px;
+
+    padding:14px 16px;
+    margin-bottom:16px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    animation:fadeIn .25s;
+}
+
+.result-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.result-icon{
+    width:52px;
+    height:52px;
+
+    background:#ff2d2d;
+    color:#fff;
+
+    border-radius:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:24px;
+}
+
+.result-count{
+    font-size:24px;
+    font-weight:700;
+    color:#222;
+}
+
+.result-count span{
+    color:#ff2d2d;
+}
+
+.result-keyword{
+    margin-top:3px;
+    font-size:13px;
+    color:#777;
+}
+
+.result-keyword span{
+    color:#d32f2f;
+    font-weight:bold;
+}
+
+.sort-btn{
+    border:none;
+    background:#fff;
+
+    padding:10px 14px;
+
+    border-radius:12px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+    font-size:15px;
+    cursor:pointer;
+}
+
+.sort-btn:active{
+    transform:scale(.95);
+}
+
+@media(max-width:600px){
+
+.result-info{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+}
+
+.sort-btn{
+    width:100%;
+}
+
+.result-count{
+    font-size:22px;
+}
+
+}
+
 /* =========================
 CARD NEW DESIGN (PRO LEVEL)
 ========================= */
