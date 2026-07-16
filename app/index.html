@@ -401,9 +401,54 @@ AUTO HIDE ANIMATION
 </select>
   </div>
 
-  <div id="status">Loading...</div>
+<div id="status">Loading...</div>
 
-  <div id="result"></div>
+<!-- EMPTY STATE -->
+<div id="emptyState" class="empty-state" style="display:none">
+
+    <img src="assets/not-found.png" class="empty-image">
+
+    <h2>
+        Produk <span>Tidak Ditemukan</span>
+    </h2>
+
+    <p>
+        Maaf, kami tidak menemukan produk
+        yang cocok dengan kata kunci
+    </p>
+
+    <div class="keyword-box">
+        "<span id="emptyKeyword"></span>"
+    </div>
+
+    <div class="tips-card">
+
+        <h3>Coba beberapa hal berikut :</h3>
+
+        <div class="tip-item">
+            <img src="assets/icon-spelling.png">
+            <span>Periksa ejaan kata kunci</span>
+        </div>
+
+        <div class="tip-item">
+            <img src="assets/icon-sku.png">
+            <span>Gunakan SKU atau Artikel</span>
+        </div>
+
+        <div class="tip-item">
+            <img src="assets/icon-scan.png">
+            <span>Scan barcode produk</span>
+        </div>
+
+    </div>
+
+    <button id="btnRetry" class="retry-btn">
+        Cari Lagi
+    </button>
+
+</div>
+
+<div id="result"></div>
 
 </main>
 
