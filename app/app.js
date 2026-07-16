@@ -27,7 +27,8 @@ const resultEl = document.getElementById("result")
 const statusEl = document.getElementById("status")  
 const resultInfo = document.getElementById("resultInfo")
 const jumlahData = document.getElementById("jumlahData")
-const keywordCari = document.getElementById("keywordCari")    
+const keywordCari = document.getElementById("keywordCari") 
+const sortSelect = document.getElementById("sortSelect")   
 const btnCamera = document.getElementById("btnCamera")    
 const video = document.getElementById("camera")    
 const canvas = document.getElementById("canvas")    
@@ -677,6 +678,57 @@ function finalSort(results, keyword) {
     return a._priority - b._priority    
   })    
 }    
+
+function sortCurrentResults(mode){
+
+    switch(mode){
+
+        case "status":
+            currentResults.sort((a,b)=>
+                getStatusPriority(a._status)-getStatusPriority(b._status)
+            )
+        break
+
+        case "promoAsc":
+            currentResults.sort((a,b)=>
+                (Number(a.harga_promo)||999999999)-
+                (Number(b.harga_promo)||999999999)
+            )
+        break
+
+        case "promoDesc":
+            currentResults.sort((a,b)=>
+                (Number(b.harga_promo)||0)-
+                (Number(a.harga_promo)||0)
+            )
+        break
+
+        case "brand":
+            currentResults.sort((a,b)=>
+                (a.brand||"").localeCompare(b.brand||"")
+            )
+        break
+
+        case "diskon":
+
+            currentResults.sort((a,b)=>{
+
+                let da=parseFloat(a.diskon)||0
+                let db=parseFloat(b.diskon)||0
+
+                return db-da
+
+            })
+
+        break
+
+        default:
+
+            currentResults=finalSort(currentResults,currentKeyword)
+
+    }
+
+}
     
 /* =========================      
 EXACT RESULT      
@@ -1208,3 +1260,13 @@ window.addEventListener("scroll", () => {
     ticking = true    
   }    
 })    
+
+sortSelect.addEventListener("change",()=>{
+
+    sortCurrentResults(sortSelect.value)
+
+    currentPage=1
+
+    renderPage()
+
+})
