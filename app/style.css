@@ -724,3 +724,55 @@ box-shadow:0 10px 20px rgba(255,49,49,.25);
 transform:scale(.97);
 
 }
+
+.retry-btn{
+
+    width:100%;
+    max-width:340px;
+
+    height:60px;
+
+    margin:30px auto 15px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+
+    border:none;
+    border-radius:999px;
+
+    background:linear-gradient(90deg,#ff3b3b,#ff1e1e);
+
+    color:#fff;
+
+    font-size:20px;
+    font-weight:700;
+
+    box-shadow:
+        0 12px 25px rgba(255,50,50,.30),
+        inset 0 1px 0 rgba(255,255,255,.2);
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.retry-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.retry-btn:active{
+
+    transform:scale(.96);
+
+}
+
+.retry-icon{
+
+    font-size:28px;
+    line-height:1;
+
+}
