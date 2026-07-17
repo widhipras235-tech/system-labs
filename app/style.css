@@ -724,3 +724,12 @@ box-shadow:0 10px 20px rgba(255,49,49,.25);
 transform:scale(.97);
 
 }
+
+.reload-icon{
+    width:22px;
+    height:22px;
+
+    display:block;
+    object-fit:contain;
+    flex-shrink:0;
+}
